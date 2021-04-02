@@ -65,9 +65,9 @@ int main()
 	//std::vector<int> resultLineLength = giveLinesLengths("lines.txt");
 	//testtingWhit("data0.txt", resultLineLength);
 	 
-	std::string filename = "data0.txt";
+	std::string filename = "data1.txt";
 	Elements elements(filename);
-	std::vector<ElementsList> result = elements.knapsack_intermediate(150);
+	std::vector<ElementsList> result = elements.knapasck_onlyOneElement(0);
 	for (ushint start = 0; start < result.size(); ++start)
 	{
 		std::cout << result[start].m_count << "\t:: " <<

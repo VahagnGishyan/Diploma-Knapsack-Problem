@@ -8,7 +8,7 @@ struct Element
 	double				m_value;
 	ushint				m_length;
 	double				m_priorityCoefficient;
-	int 				m_number;
+	int 				m_number = 0;
 
 	Element(int			length = 1, double value = 0);
 	Element(const		Element&	copyObject);
@@ -25,8 +25,20 @@ struct Element
 
 struct ElementsList
 {
-	int		m_count;
+	int		m_count = 1;
 	Element m_element;
+	ElementsList()
+	{
+
+	}
+	ElementsList(const Element& object) : m_element(object)
+	{
+
+	}
+	ElementsList(const Element&& object) : m_element(object)
+	{
+
+	}
 };
 
 class Elements
@@ -54,15 +66,16 @@ public:
 
 	//Lconum
 	std::vector<Element>		algorithm_knapsack(int Length);
-	double						algorithm_knapsack_ReturnMaxValue(int lenght);
+	double						algorithm_knapsack_ReturnMaxValue(int length);
 	std::vector<ElementsList>	algorithm_greedy(int length);
 	double						algorithm_greedy_ReturnMaxValue(int length);
 
-	std::vector<ElementsList>	knapsack_intermediate(int lenght);
+	std::vector<ElementsList>	knapsack_intermediate(int length);
 	std::vector<ElementsList>	knapsack_forIntermediate_Greedy(std::vector<Element>& temporaryData, int& length);
 	std::vector<ElementsList>	knapsack_forIntermediate_DynamicProgramming(const std::vector<Element>& temporaryData, int& length);
 	std::vector<ElementsList>	knapsack_forIntermediate_DynamicProgrammingForTest(std::vector<Element>& temporaryData, int& length);
 
+	std::vector<ElementsList>	knapasck_onlyOneElement(int length);
 
 private:
 	////If the length is a multiple of the element with the highest coefficient					
@@ -79,7 +92,9 @@ private:
 	// Վերադարձնել մեծագույն երկարությունը սկսած երկրորդն տարրից
 	ushint returnMaxLengthFromSecondElement(std::vector<Element>& temporaryData);
 			
-
+	//fortest
+	//void randomElementsNumber();
+	void twoElementsNumber();
 
 
 	//int							maxCoefficientElementIsCorrect(int length);

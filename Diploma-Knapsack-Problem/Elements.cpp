@@ -8,18 +8,22 @@ Element::Element(int length, double value) : m_value(value), m_length(length)
 }
 Element::Element(const Element& copyObject)
 {
-	m_value = copyObject.m_value;
-	m_length = copyObject.m_length;
-	m_priorityCoefficient = copyObject.m_priorityCoefficient;
+	m_value					= copyObject.m_value;
+	m_length				= copyObject.m_length;
+	m_priorityCoefficient	= copyObject.m_priorityCoefficient;
+	m_number				= copyObject.m_number;
 }
 Element::Element(Element&& copyObject) noexcept
 {
-	m_value = copyObject.m_value;
-	m_length = copyObject.m_length;
-	m_priorityCoefficient = copyObject.m_priorityCoefficient;
-	copyObject.m_length = 0;
-	copyObject.m_priorityCoefficient = 0;
-	copyObject.m_value = 0;
+	m_value								= copyObject.m_value;
+	m_length							= copyObject.m_length;
+	m_priorityCoefficient				= copyObject.m_priorityCoefficient;
+	m_number							= copyObject.m_number;
+
+	copyObject.m_length					= 0;
+	copyObject.m_priorityCoefficient	= 0;
+	copyObject.m_value					= 0;
+	copyObject.m_number					= 0;
 }
 
 //Operators
@@ -38,7 +42,7 @@ Element& Element::operator= (const Element& object)
 	m_length				= object.m_length;
 	m_value					= object.m_value;
 	m_priorityCoefficient	= object.m_priorityCoefficient;
-
+	m_number				= object.m_number;
 	return *this;
 }
 bool Element::operator==(const Element& drob)
@@ -94,7 +98,7 @@ Elements::Elements(std::string filename)
 }
 
 //For Work
-void						Elements::print()
+void Elements::print()
 {
 	const uShInt size = static_cast<uShInt>(m_data.size());
 	for (uShInt start = 0; start < size; ++start)
@@ -110,7 +114,7 @@ void						Elements::print(std::vector<Element> printData)
 }
 
 //For Sort
-void						Elements::sortn2()
+void Elements::sortn2()
 {
 	const uShInt size = static_cast<uShInt>(m_data.size());
 	uShInt indexMaxElement = 0;
@@ -125,13 +129,13 @@ void						Elements::sortn2()
 		swapElement(m_data[indexMaxElement], m_data[start]);
 	}
 }
-void						Elements::swapElement(Element& object1, Element& object2)
+void Elements::swapElement(Element& object1, Element& object2)
 {
 	Element obj = object1;
 	object1 = object2;
 	object2 = obj;
 }
-void						Elements::sortByLenght(std::vector<Element>& temporaryData)
+void Elements::sortByLenght(std::vector<Element>& temporaryData)
 {
 	const uShInt size = static_cast<uShInt>(temporaryData.size());
 	uShInt indexMaxElement = 0;
@@ -146,7 +150,7 @@ void						Elements::sortByLenght(std::vector<Element>& temporaryData)
 		swapElement(temporaryData[indexMaxElement], temporaryData[start]);
 	}
 }
-void						Elements::sortByPriorityCoefficient(std::vector<Element>& temporaryData)
+void Elements::sortByPriorityCoefficient(std::vector<Element>& temporaryData)
 {
 	const uShInt size = static_cast<uShInt>(temporaryData.size());
 	uShInt indexMaxElement = 0;
@@ -162,7 +166,7 @@ void						Elements::sortByPriorityCoefficient(std::vector<Element>& temporaryDat
 	}
 }
 //Operators
-Elements&					Elements::operator= (const Elements& drob)
+Elements& Elements::operator= (const Elements& drob)
 {
 	m_data = drob.m_data;
 	return *this;
@@ -558,6 +562,102 @@ std::vector<ElementsList>	Elements::knapsack_forIntermediate_DynamicProgramming(
 	return (elementList.back());
 }
 
+//Մասնավոր դեպքեր
+std::vector<ElementsList>	Elements::knapasck_onlyOneElement(int length)
+{
+	assert(length > 0 && "Length is not posytive");
+
+	twoElementsNumber();
+
+	struct State
+	{
+		double						m_maxValue = 0;
+		std::vector<Element>		m_temporaryData;
+		std::vector<Element>		m_bestResult;
+	};
+
+
+	//Initealiation temporaryData
+	std::vector<State>			states(length + 1);
+	{
+		ushint size = static_cast<ushint>(m_data.size());
+		std::vector<Element>		temporaryData(size);
+		for (ushint start = 0; start < size; ++start)
+		{
+			if (m_data[start].m_length <= length)
+			{
+				temporaryData[start] = (m_data[start]);
+			}
+		}
+		states[0].m_maxValue = 0;
+		states[0].m_temporaryData = temporaryData;
+	}
+
+	double reservMaxValue = 0;
+
+	for (ushint start = 1; start <= length; ++start)
+	{
+		states[start] = states[start - 1];
+
+		//std::vector<Element>& temporaryData= states[start].m_temporaryData;
+		ushint size = static_cast<ushint>(states[start].m_temporaryData.size());
+		for (ushint index = 0; index < size; ++index)
+		{
+			const Element& object = states[start].m_temporaryData[index];
+			if (object.m_number <= 0)
+				continue;
+			if (object.m_length <= start)
+			{
+				if (states[start].m_maxValue < states[start - object.m_length].m_maxValue + object.m_value)
+				{
+					if (states[start - object.m_length].m_temporaryData[index].m_number <= 0)
+						continue;
+					states[start] = states[start - object.m_length];
+
+					states[start].m_maxValue += object.m_value;
+					--states[start].m_temporaryData[index].m_number;
+					states[start].m_bestResult.push_back(object);
+				}
+			}
+		}
+	}
+
+	for (ushint start = 0; start < states[length].m_temporaryData.size(); ++start)
+	{
+		for (ushint index = 0; index < m_data.size(); ++index)
+		{
+			if (states[length].m_temporaryData[start] == m_data[index])
+			{
+				states[length].m_temporaryData[start].m_number = m_data[index].m_number;
+				break;
+			}
+		}
+	}
+
+
+	std::vector<ElementsList> result;
+	result.push_back(states[length].m_bestResult[0]);
+
+	for (ushint start = 1; start < static_cast<ushint>(states[length].m_bestResult.size()); ++start)
+	{
+		bool key = true;
+		for (ushint index = 0; index < result.size(); ++index)
+		{
+			if (states[length].m_bestResult[start] == result[index].m_element)
+			{
+				key = false;
+				++result[index].m_count;
+				break;
+			}
+		}
+		if (key)
+		{
+			result.push_back(states[length].m_bestResult[start]);
+		}
+	}
+
+	return result;
+}
 
 void	Elements::excludeLongElement(std::vector<Element>& temporaryData, int length)
 {
@@ -624,7 +724,7 @@ double	Elements::returnGreatCost(std::vector<Element>& temporaryData)
 }
 void	Elements::deleteMaxLengthMiniNotMaxElements(std::vector<Element>& temporaryData, double maxValue)
 {
-	ushint rememberIndex;
+	ushint rememberIndex = 0;
 	ushint size = static_cast<ushint>(temporaryData.size());
 
 	for (ushint start = 0; start < size; ++start)
@@ -729,4 +829,13 @@ std::vector<int>			giveLinesLengths(std::string filename)
 	}
 
 	return (linesLength);
+}
+
+//fortest
+void Elements::twoElementsNumber()
+{
+	for (ushint start = 0; start < m_data.size(); ++start)
+	{
+		m_data[start].m_number = 2;
+	}
 }
