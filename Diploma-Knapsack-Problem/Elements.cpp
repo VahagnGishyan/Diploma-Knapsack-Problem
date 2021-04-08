@@ -113,22 +113,6 @@ void Elements::print(std::vector<Element> printData)
     std::cout << std::endl;
 }
 
-//For Sort
-//void Elements::sortn2()
-//{
-//	const uShInt size = static_cast<uShInt>(m_data.size());
-//	uShInt indexMaxElement = 0;
-//	for (uShInt start = 0; start < size - 1; ++start)
-//	{
-//		indexMaxElement = start;
-//		for (uShInt index = start + 1; index < size; ++index)
-//		{
-//			if (m_data[indexMaxElement].m_priorityCoefficient < m_data[index].m_priorityCoefficient)
-//				indexMaxElement = index;
-//		}
-//		swapElement(m_data[indexMaxElement], m_data[start]);
-//	}
-//}
 void Elements::mergSortTest(std::vector<Element>& array)
 {
     ushint length = static_cast<ushint>(array.size());
@@ -312,8 +296,6 @@ Elements& Elements::operator= (const Elements& drob)
     return *this;
 }
 
-//Lconum
-//Ըստ n*w սկզբունքի
 std::vector<Element>		Elements::algorithm_knapsack(int Length)
 {
     std::vector <std::vector<Element>> elementList(Length + 1);
@@ -373,7 +355,6 @@ double						Elements::algorithm_knapsack_ReturnMaxValue(int Length)
     }
     return arrayForMaxValue[Length];
 }
-//Ըստ Ագահ Ալգորիթմի
 std::vector<ElementsList>	Elements::algorithm_greedy(int length)
 {
     std::vector<ElementsList> reservElements;
@@ -410,17 +391,14 @@ double						Elements::algorithm_greedy_ReturnMaxValue(int length)
     }
     return (maxValue);
 }
-////Միջանկյան Ալգորիթմ
 std::vector<ElementsList>	Elements::knapsack_intermediate(int length)
 {
     //Determine the preference coefficients for all elements
     decidePreferenceCoefficients();
     std::vector<Element> temporaryData = m_data;
-    //print(temporaryData);
 
     //Sort by lengths
     sortByLenght(temporaryData);
-    //print(temporaryData);
 
     //We subtract all the elements whose length is greater than the length of the line.
     if (temporaryData.back().m_length > length)
@@ -439,29 +417,21 @@ std::vector<ElementsList>	Elements::knapsack_intermediate(int length)
 	    std::vector<ElementsList> forNotError;
 	    return forNotError;
 	}
-	print(temporaryData);
     }
 
     //If the elements are the same size, the item with the highest cost is selected
     deleteRepetitionsԼenght(temporaryData);
-    //print(temporaryData);
 
     //We find the greatest cost 
     double maxVale = returnGreatCost(temporaryData);
     //If the largest element in size does not have the greatest value, then that element is meaningless
     deleteMaxLengthMiniNotMaxElements(temporaryData, maxVale);
-    //print(temporaryData);
 
     //Sort by preferences coefficient and lengths.
     sortByPriorityCoefficient(temporaryData);
-    //print(temporaryData);
 
-    //Մնում ա ագահ և դինամիկ լցունումները 
-
-    //Task fulfillment
     std::vector<ElementsList> resultElementListFromGreedy = knapsack_forIntermediate_Greedy(temporaryData, length);
     std::vector<ElementsList> resultElementListFromDynamicProgramming = knapsack_forIntermediate_DynamicProgramming(temporaryData, length);
-    //resultElementListFromGreedy += resultElementListFromDynamicProgramming;
 
     //for test
     std::vector<ElementsList> resultElementListFroTest = knapsack_forIntermediate_DynamicProgrammingForTest(temporaryData, length);
@@ -519,13 +489,11 @@ std::vector<ElementsList>	Elements::knapsack_intermediate(int length)
 
     return result;
 }
-//Ագահ ալգորիթմ Միջանկյալի համար
 std::vector<ElementsList>	Elements::knapsack_forIntermediate_Greedy(std::vector<Element>& temporaryData, int& length)
 {
     //Varibles
     std::vector<ElementsList> reservElements;
 
-    //Ստուգում ենք, երկարությունը հո առաջին նախընտրելիության տարրի բազմապատիկը չի
     if (length % temporaryData[0].m_length == 0)
     {
 	ElementsList object;
@@ -537,12 +505,9 @@ std::vector<ElementsList>	Elements::knapsack_forIntermediate_Greedy(std::vector<
 	return reservElements;
     }
 
-    //Առաջին նախընտրելիության տարրից բացի մյուս բոլոր տարրերի միջից ամենամեծ երկարությունը
     const ushint maxLenght = returnMaxLengthFromSecondElement(temporaryData);
-    //Գտնում ենք այն երկարությունը որը պետք է լցոնենք
     ushint Length = length - maxLenght;
 
-    //Կատարում ենք լցոնում
     const ushint size = static_cast<ushint>(temporaryData.size());
     for (ushint start = 0; start < size; ++start)
     {
@@ -702,7 +667,6 @@ std::vector<ElementsList>	Elements::knapsack_forIntermediate_DynamicProgramming(
     return (elementList.back());
 }
 
-//Մասնավոր դեպքեր
 std::vector<ElementsList>	Elements::knapasck_LimitElement(int length)
 {
     assert(length > 0 && "Length is not posytive");
@@ -901,35 +865,6 @@ ushint	Elements::returnMaxLengthFromSecondElement(std::vector<Element>& temporar
     }
     return maxLenght;
 }
-//void Elements::sortByPreferenceCoefficients(std::vector<Element*> elementSortLenght)
-//{
-//	elementSortLenght.resize(m_data.size());
-//	for
-//}
-
-//int							Elements::maxCoefficientElementIsCorrect(int length)
-//{
-//	if (length % m_data[0].m_length)
-//		return 0;
-//	return length / m_data[0].m_length;
-//}
-////correct the elements
-//std::vector<Element>		Elements::correct_elementlengthIsGreaterLength()
-//{
-//	std::vector<Element> newData = m_data;
-//	shint size = newData.size();
-//	for(ushint start = 0; start < size; ++start)
-//	{
-//		if(newData[start].m_length >)
-//}
-//void 						Elements::correct_elementLengtheSame()
-//{
-//
-//}
-//void 						Elements::correct_elementIsNotPreferable()
-//{
-//
-//}
 
 std::vector<int>			giveLinesLengths(std::string filename)
 {
@@ -967,13 +902,4 @@ std::vector<int>			giveLinesLengths(std::string filename)
     }
 
     return (linesLength);
-}
-
-//fortest
-void Elements::twoElementsNumber()
-{
-    for (ushint start = 0; start < m_data.size(); ++start)
-    {
-	m_data[start].m_number = 2;
-    }
 }
