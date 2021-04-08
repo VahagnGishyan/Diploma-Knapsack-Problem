@@ -47,22 +47,27 @@ private:
 	std::vector<Element> m_data;
 
 	//For Sort
-	void sortn2();
+	void mergSortTest(std::vector<Element>& Data);
 	void swapElement(Element& object1, Element& object2);
 
 	void	sortByLenght(std::vector<Element>& temporaryData);				// Սորթավորել ըստ երկարության
 	void	sortByPriorityCoefficient(std::vector<Element>& temporaryData);	// Սորթավորել ըստ նախընտրելիության գործակիցի
 
 public:
+    void mergSort()
+    {
+	std::vector<Element> data = m_data;
+	mergSortTest(data);
+    }
 	//Դեֆոլտ պետք ա գործակիցը և ամեն ինչը լինի բացասական եթե չի արժեքավորվել
 	Elements(std::string filename);
 
-	//For Work
-	void print();
-	void print(std::vector<Element> printData);
+    //For Work
+    void print();
+    void print(std::vector<Element> printData);
 
-	//Operators
-	Elements& operator= (const Elements& drob);
+    //Operators
+    Elements& operator= (const Elements& drob);
 
 	//Lconum
 	std::vector<Element>		algorithm_knapsack(int Length);
@@ -75,7 +80,7 @@ public:
 	std::vector<ElementsList>	knapsack_forIntermediate_DynamicProgramming(const std::vector<Element>& temporaryData, int& length);
 	std::vector<ElementsList>	knapsack_forIntermediate_DynamicProgrammingForTest(std::vector<Element>& temporaryData, int& length);
 
-	std::vector<ElementsList>	knapasck_onlyOneElement(int length);
+	std::vector<ElementsList>	knapasck_LimitElement(int length);
 
 private:
 	////If the length is a multiple of the element with the highest coefficient					
