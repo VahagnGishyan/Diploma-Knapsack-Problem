@@ -113,7 +113,7 @@ void Elements::print(std::vector<Element> printData)
     std::cout << std::endl;
 }
 
-void Elements::mergSortTest(std::vector<Element>& array)
+void Elements::mergSort(std::vector<Element>& array)
 {
     ushint length = static_cast<ushint>(array.size());
 
@@ -670,8 +670,6 @@ std::vector<ElementsList>	Elements::knapsack_forIntermediate_DynamicProgramming(
 std::vector<ElementsList>	Elements::knapasck_LimitElement(int length)
 {
     assert(length > 0 && "Length is not posytive");
-
-    twoElementsNumber();
 
     struct State
     {

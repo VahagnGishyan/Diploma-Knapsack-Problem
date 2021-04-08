@@ -47,33 +47,48 @@ private:
 	std::vector<Element> m_data;
 
 	//For Sort
-	void mergSortTest(std::vector<Element>& Data);
+	void mergSort(std::vector<Element>& Data);
 	void swapElement(Element& object1, Element& object2);
 
-	void	sortByLenght(std::vector<Element>& temporaryData);				// Սորթավորել ըստ երկարության
-	void	sortByPriorityCoefficient(std::vector<Element>& temporaryData);	// Սորթավորել ըստ նախընտրելիության գործակիցի
+	void	sortByLenght(std::vector<Element>& temporaryData);
+	void	sortByPriorityCoefficient(std::vector<Element>& temporaryData);	
 
 public:
-    void mergSort()
+    void mergSortTest()
     {
 	std::vector<Element> data = m_data;
-	mergSortTest(data);
+	mergSort(data);
     }
-	//Դեֆոլտ պետք ա գործակիցը և ամեն ինչը լինի բացասական եթե չի արժեքավորվել
+	//The default must be the coefficient and everything must be negative if it is not initialized
 	Elements(std::string filename);
 
     //For Work
     void print();
     void print(std::vector<Element> printData);
+    void setNumbers()
+    {
+	for (ushint index = 0; index < m_data.size(); ++index)
+	{
+	    m_data[index].m_number = 1;
+	}
+    }
+    void setNumbers(int index, int number = 2)
+    {
+	m_data[index].m_number = number;
+    }
+    ushint size()
+    {
+	return static_cast<ushint>(m_data.size());
+    }
 
     //Operators
     Elements& operator= (const Elements& drob);
 
 	//Lconum
 	std::vector<Element>		algorithm_knapsack(int Length);
-	double						algorithm_knapsack_ReturnMaxValue(int length);
+	double				algorithm_knapsack_ReturnMaxValue(int length);
 	std::vector<ElementsList>	algorithm_greedy(int length);
-	double						algorithm_greedy_ReturnMaxValue(int length);
+	double				algorithm_greedy_ReturnMaxValue(int length);
 
 	std::vector<ElementsList>	knapsack_intermediate(int length);
 	std::vector<ElementsList>	knapsack_forIntermediate_Greedy(std::vector<Element>& temporaryData, int& length);
@@ -83,38 +98,19 @@ public:
 	std::vector<ElementsList>	knapasck_LimitElement(int length);
 
 private:
-	////If the length is a multiple of the element with the highest coefficient					
-	// Ջնջում ենք մեծ տարրերը
+	////If the length is a multiple of the element with the priority coefficient					
+	//We delete large elements
 	void	excludeLongElement(std::vector<Element> &temporaryData, int lenght);	
-	// Ջնջում ենք կրկնությունները ըստ երկարությունների
+	// We delete repetitions by length
 	void	deleteRepetitionsԼenght(std::vector<Element>& temporaryData);			
-	// Գտնում ենք մեծագույն արժեքը
+	// We find the greatest value
 	double  returnGreatCost(std::vector<Element>& temporaryData);				
-	// Եթե չափերով ամենամեծ տարրը ամենամեծ ինքարժեքը չունի, ապա էդ տարրը անիմաստ ա
+	// If the largest element in size does not have the greatest value, then that element is meaningless
 	void	deleteMaxLengthMiniNotMaxElements(std::vector<Element>& temporaryData, double maxValue);														
-	// որոշել նախընտրելիության գործակիցները
+	// determine the priority coefficients  
 	void decidePreferenceCoefficients();	
-	// Վերադարձնել մեծագույն երկարությունը սկսած երկրորդն տարրից
+	// Return the largest length starting from the second element
 	ushint returnMaxLengthFromSecondElement(std::vector<Element>& temporaryData);
-			
-	//fortest
-	//void randomElementsNumber();
-	void twoElementsNumber();
-
-
-	//int							maxCoefficientElementIsCorrect(int length);
-	////correct the elements
-	//std::vector<Element>		correct_elementlengthIsGreaterLength();
-	//std::vector<Element>		correct_elementLengtheSame();
-	//std::vector<Element>		correct_elementIsNotPreferable();
 };
 
 std::vector<int>			giveLinesLengths(std::string filename);
-
-//class ElementsList
-//{
-//	std::vector<ElementsAndCount> m_data;
-//
-//
-//
-//};

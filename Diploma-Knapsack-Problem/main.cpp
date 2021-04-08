@@ -5,6 +5,10 @@ int main()
     std::string filename = "data1.txt";
     Elements elements(filename);
 
+    for (ushint index = 0; index < elements.size(); ++index)
+    {
+	elements.setNumbers(index, 2);
+    }
 
     std::vector<ElementsList> result = elements.knapsack_intermediate(150);
 
