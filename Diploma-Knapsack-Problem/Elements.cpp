@@ -60,6 +60,7 @@ Elements::Elements(std::string filename)
     //varible
     std::ifstream variableForInputtingDataFromFile(filename);
     std::vector<std::string> reservStringsFromFile;
+    std::vector<std::vector<int>> temporaryData;
 
     //is file not open
     if (!variableForInputtingDataFromFile)
@@ -76,6 +77,7 @@ Elements::Elements(std::string filename)
     }
 
     uShInt size = static_cast<uShInt>(reservStringsFromFile.size());
+    temporaryData.resize(size);
     m_data.resize(size);
 
     //input m_data from "reservStringsFromFile"
@@ -84,16 +86,25 @@ Elements::Elements(std::string filename)
 	std::string reservNumber = "";
 	for (uShInt index = 0; index < reservStringsFromFile[start].size(); ++index)
 	{
-	    if (reservStringsFromFile[start][index] == ' ')
+	    char symbol = reservStringsFromFile[start][index];
+	    if ((symbol >= '0') && (symbol <= '9'))
 	    {
-		m_data[start].m_length = std::stoi(reservNumber);
-		reservNumber = "";
-		continue;
+		reservNumber += symbol;
 	    }
-	    reservNumber += reservStringsFromFile[start][index];
+	    else if(reservNumber.size())
+	    {
+		temporaryData[start].push_back(std::stoi(reservNumber));
+		reservNumber = "";
+	    }
 	}
-	m_data[start].m_value = std::stod(reservNumber);
-	m_data[start].m_priorityCoefficient = m_data[start].m_value / m_data[start].m_length;
+	temporaryData[start].push_back(std::stoi(reservNumber));
+    }
+
+    for (ushint start = 0; start < size; ++start)
+    {
+	m_data[start].m_length = temporaryData[start][0];
+	m_data[start].m_value = temporaryData[start][1];
+	m_data[start].m_number = temporaryData[start][2];
     }
 }
 
@@ -334,7 +345,7 @@ std::vector<Element>		Elements::algorithm_knapsack(int Length)
     }
     return elementList[Length];
 }
-double						Elements::algorithm_knapsack_ReturnMaxValue(int Length)
+double				Elements::algorithm_knapsack_ReturnMaxValue(int Length)
 {
     size_t n = m_data.size();
 
@@ -376,7 +387,7 @@ std::vector<ElementsList>	Elements::algorithm_greedy(int length)
     }
     return (reservElements);
 }
-double						Elements::algorithm_greedy_ReturnMaxValue(int length)
+double				Elements::algorithm_greedy_ReturnMaxValue(int length)
 {
     double maxValue = 0;
     sortByPriorityCoefficient(m_data);
@@ -432,30 +443,6 @@ std::vector<ElementsList>	Elements::knapsack_intermediate(int length)
 
     std::vector<ElementsList> resultElementListFromGreedy = knapsack_forIntermediate_Greedy(temporaryData, length);
     std::vector<ElementsList> resultElementListFromDynamicProgramming = knapsack_forIntermediate_DynamicProgramming(temporaryData, length);
-
-    //for test
-    std::vector<ElementsList> resultElementListFroTest = knapsack_forIntermediate_DynamicProgrammingForTest(temporaryData, length);
-    if (resultElementListFroTest.size() != resultElementListFromDynamicProgramming.size())
-    {
-	std::cout << "Reult 1 :: " << resultElementListFroTest.size() << std::endl;
-	std::cout << "Reult 1 :: " << resultElementListFroTest.size() << std::endl;
-	assert(resultElementListFroTest.size() == resultElementListFromDynamicProgramming.size());
-    }
-    const ushint sizeFortest = static_cast<ushint>(resultElementListFroTest.size());
-    for (ushint start = 0; start < sizeFortest; ++start)
-    {
-	bool key = false;
-	for (ushint index = 0; index < sizeFortest; ++index)
-	{
-	    if ((resultElementListFroTest[start].m_element == resultElementListFromDynamicProgramming[index].m_element) &&
-		(resultElementListFroTest[start].m_count == resultElementListFromDynamicProgramming[index].m_count))
-	    {
-		key = true;
-		break;
-	    }
-	}
-	assert(key && "resultElementListFromDynamicProgramming is not working correct");
-    }
 
     if (resultElementListFromGreedy.size() == 0 && resultElementListFromDynamicProgramming.size() == 0)
     {
@@ -528,79 +515,6 @@ std::vector<ElementsList>	Elements::knapsack_forIntermediate_Greedy(std::vector<
     }
     return reservElements;
 }
-std::vector<ElementsList>	Elements::knapsack_forIntermediate_DynamicProgrammingForTest(std::vector<Element>& temporaryData, int& length)
-{
-    std::vector<ElementsList> reservElements;
-
-    if (length == 0)
-	return reservElements;
-
-    std::vector <std::vector<Element>> elementList(length + 1);
-    std::vector<double> arrayForMaxValue(length + 1);
-
-    const ushint size = static_cast<ushint>(m_data.size());
-
-    double reservMaxValue = 0;
-    arrayForMaxValue[0] = 0;
-
-    for (ushint start = 1; start <= length; ++start)
-    {
-	arrayForMaxValue[start] = arrayForMaxValue[start - 1];
-	elementList[start] = elementList[start - 1];
-	for (ushint index = 0; index < size; ++index)
-	{
-	    if (m_data[index].m_length <= start)
-	    {
-		if (arrayForMaxValue[start] < arrayForMaxValue[start - m_data[index].m_length] + m_data[index].m_value)
-		{
-		    arrayForMaxValue[start] = arrayForMaxValue[start - m_data[index].m_length] + m_data[index].m_value;
-
-		    const double lastValue = arrayForMaxValue[start - m_data[index].m_length];
-		    const ushint lastValueIndex = static_cast<ushint>(start - m_data[index].m_length);
-		    if (reservMaxValue > lastValue)
-		    {
-			elementList[start] = elementList[lastValueIndex];
-			reservMaxValue = arrayForMaxValue[lastValueIndex];
-		    }
-		    reservMaxValue += m_data[index].m_value;
-		    elementList[start].push_back(m_data[index]);
-		    assert(reservMaxValue == arrayForMaxValue[start]);
-		}
-	    }
-	}
-    }
-
-    std::vector<ElementsList> result;
-
-    if (elementList.size() == 0)
-	return (result);
-
-    const ushort sizeResult = static_cast<ushint>(elementList[length].size());
-
-    {
-	ElementsList object;
-	object.m_count = 1;
-	object.m_element = elementList[length][0];
-	result.push_back(object);
-    }
-
-    for (ushort start = 1; start < sizeResult; ++start)
-    {
-	if (elementList[length][start] != result.back().m_element)
-	{
-	    ElementsList object;
-	    object.m_count = 1;
-	    object.m_element = elementList[length][start];
-	    result.push_back(object);
-	}
-	else
-	{
-	    ++result.back().m_count;
-	}
-    }
-
-    return (result);
-}
 std::vector<ElementsList>	Elements::knapsack_forIntermediate_DynamicProgramming(const std::vector<Element>& data, int& length)
 {
     std::vector <std::vector<ElementsList>> elementList(length + 1);
@@ -667,9 +581,22 @@ std::vector<ElementsList>	Elements::knapsack_forIntermediate_DynamicProgramming(
     return (elementList.back());
 }
 
+bool Elements::isMemberDataNumberEmpty()
+{
+    for (ushint index = 0; index < size(); ++index)
+	if (m_data[index].m_number != 0)
+	    return false;
+    return true;
+}
 std::vector<ElementsList>	Elements::knapasck_LimitElement(int length)
 {
     assert(length > 0 && "Length is not posytive");
+
+    if (isMemberDataNumberEmpty())
+    {
+	std::vector<ElementsList> ForNotError;
+	return ForNotError;
+    }
 
     struct State
     {
@@ -723,16 +650,23 @@ std::vector<ElementsList>	Elements::knapasck_LimitElement(int length)
 	}
     }
 
-    for (ushint start = 0; start < states[length].m_temporaryData.size(); ++start)
+    //save data
+    for (ushint start = 0; start < static_cast<ushint>(states[length].m_temporaryData.size()); ++start)
     {
 	for (ushint index = 0; index < m_data.size(); ++index)
 	{
 	    if (states[length].m_temporaryData[start] == m_data[index])
 	    {
-		states[length].m_temporaryData[start].m_number = m_data[index].m_number;
+		m_data[index].m_number = states[length].m_temporaryData[start].m_number;
 		break;
 	    }
 	}
+    }
+    
+    if (states[length].m_bestResult.size() == 0)
+    {
+	std::vector<ElementsList> ForNotError;
+	return ForNotError;
     }
 
     std::vector<ElementsList> result;

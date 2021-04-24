@@ -76,13 +76,17 @@ public:
     {
 	m_data[index].m_number = number;
     }
-    ushint size()
+    ushint size() const 
     {
 	return static_cast<ushint>(m_data.size());
     }
 
     //Operators
     Elements& operator= (const Elements& drob);
+    Element& operator[](int index)
+    {
+	return m_data[index];
+    }
 
 	//Lconum
 	std::vector<Element>		algorithm_knapsack(int Length);
@@ -93,7 +97,6 @@ public:
 	std::vector<ElementsList>	knapsack_intermediate(int length);
 	std::vector<ElementsList>	knapsack_forIntermediate_Greedy(std::vector<Element>& temporaryData, int& length);
 	std::vector<ElementsList>	knapsack_forIntermediate_DynamicProgramming(const std::vector<Element>& temporaryData, int& length);
-	std::vector<ElementsList>	knapsack_forIntermediate_DynamicProgrammingForTest(std::vector<Element>& temporaryData, int& length);
 
 	std::vector<ElementsList>	knapasck_LimitElement(int length);
 
@@ -111,6 +114,7 @@ private:
 	void decidePreferenceCoefficients();	
 	// Return the largest length starting from the second element
 	ushint returnMaxLengthFromSecondElement(std::vector<Element>& temporaryData);
+	bool isMemberDataNumberEmpty();
 };
 
 std::vector<int>			giveLinesLengths(std::string filename);

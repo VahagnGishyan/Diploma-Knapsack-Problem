@@ -1,0 +1,37 @@
+Elements[0]
+	Value = 10
+	Length = 5
+Elements[1]
+	Value = 16
+	Length = 4
+Elements[2]
+	Value = 9
+	Length = 3
+Elements[3]
+	Value = 6
+	Length = 6
+
+
+Line size = 1
+result is Empty
+
+Line size = 2
+result is Empty
+
+Line size = 3
+1*(Element[2])
+
+Line size = 5
+1*(Element[1])
+
+Line size = 15
+1*(Element[1])
+2*(Element[0])
+
+Line size = 150
+1*(Element[2])
+2*(Element[3])
+
+Line size = 1000
+result is Empty
+
