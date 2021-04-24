@@ -67,9 +67,9 @@ int main()
 	std::cout << data[index] << std::endl;
     std::cout << std::endl;
 
-    //Interface::StartWork(elements, data);
-    bool key = false;
-    outputResult(elements, data, key);
+    Interface::StartWork(elements, data);
+    //bool key = false;
+    //outputResult(elements, data, key);
 
     return 0;
 }
