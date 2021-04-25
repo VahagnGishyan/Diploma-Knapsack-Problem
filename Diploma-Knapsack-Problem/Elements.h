@@ -59,8 +59,10 @@ public:
 	std::vector<Element> data = m_data;
 	mergSort(data);
     }
-	//The default must be the coefficient and everything must be negative if it is not initialized
-	Elements(std::string filename);
+	
+    //The default must be the coefficient and everything must be negative if it is not initialized
+    Elements();
+    Elements(std::string filename);
 
     //For Work
     void print();
@@ -80,6 +82,10 @@ public:
     {
 	return static_cast<ushint>(m_data.size());
     }
+    void push_back(const Element& object);
+    void pop_back();
+    void clear();
+    void resize(int size);
 
     //Operators
     Elements& operator= (const Elements& drob);

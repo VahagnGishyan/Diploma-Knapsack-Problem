@@ -1,14 +1,23 @@
 #pragma once
+
+#include <ctime>
+
 #include "Header.h"
+#include "Elements.h"
+#include "Interface.h"
+
 
 namespace RandomGeneration
 {
-    void ForTiruyt  (std::string filename, ushint size, ushint seed = 4541);
+    void ForHollow(std::string filename, ushint size, ushint seed = 4541);
+    std::vector<ushint> ForHollow(ushint size, ushint seed = 4541);
     void ForElements(std::string filename, ushint size, ushint seed = 4541);
+    Elements ForElements(ushint size, ushint seed = 4541);
 }
 
 namespace CalculateWorkingTime
 {
-    std::vector<double> ForIntermediate(std::vector<std::string> filenames, std::vector<std::string> elements);
+
+    std::vector<ushint> ForIntermediate();
     //double CalculateWorkingTime();
 }

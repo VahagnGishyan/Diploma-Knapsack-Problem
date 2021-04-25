@@ -12,11 +12,11 @@ void Work(std::string filename)
     files.push_back("forTiruyt_1000.txt");
     files.push_back("forTiruyt_10000.txt");
 
-    RandomGeneration::ForTiruyt(files[0], 1);
-    RandomGeneration::ForTiruyt(files[1], 10);
-    RandomGeneration::ForTiruyt(files[2], 100);
-    RandomGeneration::ForTiruyt(files[3], 1000);
-    RandomGeneration::ForTiruyt(files[4], 10000);
+    RandomGeneration::ForHollow(files[0], 1);
+    RandomGeneration::ForHollow(files[1], 10);
+    RandomGeneration::ForHollow(files[2], 100);
+    RandomGeneration::ForHollow(files[3], 1000);
+    RandomGeneration::ForHollow(files[4], 10000);
 
     std::vector<std::string> elements;
     elements.push_back("forElements_16.txt");
@@ -42,11 +42,7 @@ int main()
 {
     std::cout << "Start main()" << std::endl;
 
-    //Interface::defaultWork();
-
-
-
-
+    CalculateWorkingTime::ForIntermediate();
 
     return 0;
 }

@@ -55,6 +55,10 @@ bool Element::operator!=(const Element& drob)
 }
 
 //Class Elements => container class Element
+Elements::Elements()
+{
+
+}
 Elements::Elements(std::string filename)
 {
     //varible
@@ -299,6 +303,23 @@ void Elements::sortByPriorityCoefficient(std::vector<Element>& array)
 	}
     }
 
+}
+void Elements::push_back(const Element& object)
+{
+    m_data.push_back(object);
+}
+void Elements::pop_back()
+{
+    m_data.pop_back();
+}
+void Elements::clear()
+{
+    m_data.clear();
+}
+void Elements::resize(int size)
+{
+    assert(size > 0 && "Size will be positve");
+    m_data.resize(size);
 }
 //Operators
 Elements& Elements::operator= (const Elements& drob)

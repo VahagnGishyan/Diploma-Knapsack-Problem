@@ -14,3 +14,6 @@ typedef short int shint;
 typedef unsigned int uint;
 typedef unsigned short int ushint;
 typedef unsigned short int ushort;
+
+using ulong = unsigned long int;
+using ulint = unsigned long int;
