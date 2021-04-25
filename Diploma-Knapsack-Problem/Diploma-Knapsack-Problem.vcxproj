@@ -139,11 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CalculateWorkingTime.cpp" />
     <ClCompile Include="Elements.cpp" />
     <ClCompile Include="Interface.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CalculateWorkingTime.h" />
     <ClInclude Include="Elements.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="Interface.h" />

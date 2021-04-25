@@ -2,10 +2,12 @@
 
 #include "Header.h"
 #include "Elements.h"
+#include "CalculateWorkingTime.h"
 
 namespace Interface
 {
     void StartWork(Elements& elements, std::vector<ushint>& hollow);
+    void defaultWork();
 
     namespace Hollow
     {
@@ -20,3 +22,6 @@ namespace Interface
 	void	    output(const std::vector<ElementsList>& object);
     }
 }
+
+void outputResult(Elements& elements, std::vector<ushint>& hollow, const bool key);
+

@@ -1,75 +1,52 @@
 #include "Elements.h" 
 #include "Interface.h"
 
-void outputResult(Elements& elements, std::vector<ushint>& hollow, const bool key)
+#include "CalculateWorkingTime.h"
+
+void Work(std::string filename)
 {
-    std::ofstream dataForOutput("dataResult.txt");
-    if (!dataForOutput)
-    {
-	std::cerr << "File " << "dataResult.txt" << " is not found" << std::endl;
-    }
+    std::vector<std::string> files;
+    files.push_back("forTiruyt_1.txt");
+    files.push_back("forTiruyt_10.txt");
+    files.push_back("forTiruyt_100.txt");
+    files.push_back("forTiruyt_1000.txt");
+    files.push_back("forTiruyt_10000.txt");
 
-    for (int index = 0; index < static_cast<int>(elements.size()); ++index)
-	dataForOutput << "Elements[" << index << "]" << "\n" <<
-	"\t" << "Value = " << elements[index].m_value << "\n" <<
-	"\t" << "Length = " << elements[index].m_length << std::endl;
-    dataForOutput << "\n\n";
+    RandomGeneration::ForTiruyt(files[0], 1);
+    RandomGeneration::ForTiruyt(files[1], 10);
+    RandomGeneration::ForTiruyt(files[2], 100);
+    RandomGeneration::ForTiruyt(files[3], 1000);
+    RandomGeneration::ForTiruyt(files[4], 10000);
 
-    ushint number = static_cast<ushint>(hollow.size());
+    std::vector<std::string> elements;
+    elements.push_back("forElements_16.txt");
+    elements.push_back("forElements_32.txt");
+    elements.push_back("forElements_64.txt");
+    elements.push_back("forElements_128.txt");
+    elements.push_back("forElements_256.txt");
 
-    for (ushint index = 0; index < number; ++index)
-    {
-	std::vector<ElementsList> result;
-
-
-	if(key)
-	    result = elements.knapasck_LimitElement(hollow[index]);
-	else
-	    result = elements.knapsack_intermediate(hollow[index]);
-
-	dataForOutput << "Line size = " << hollow[index] << std::endl;
-
-	if (!result.size())
-	{
-	    dataForOutput << "result is Empty" << std::endl << std::endl;
-	    continue;
-	}
-
-	for (int start = 0; start < static_cast<int>(result.size()); ++start)
-	{
-	    for (int index = 0; index < static_cast<int>(elements.size()); ++index)
-	    {
-		if (result[start].m_element == elements[index])
-		{
-		    dataForOutput << result[start].m_count << "*(Element[" << index << "])" << std::endl;
-		    break;
-		}
-	    }
-	}
-	dataForOutput << "\n";
-    }
+    std::cout << "A" << std::endl;
+    RandomGeneration::ForElements(elements[0], 16);
+    std::cout << "B" << std::endl;
+    RandomGeneration::ForElements(elements[1], 32);
+    std::cout << "C" << std::endl;
+    RandomGeneration::ForElements(elements[2], 64);
+    std::cout << "D" << std::endl;
+    RandomGeneration::ForElements(elements[3], 128);
+    std::cout << "E" << std::endl;
+    RandomGeneration::ForElements(elements[4], 256);
+    std::cout << "F" << std::endl;
 }
 
 int main()
 {
     std::cout << "Start main()" << std::endl;
 
-    std::cout << "Initealization Elements form file(data1.txt)" << std::endl;
-    std::string filename = "data1.txt";
-    Elements elements(filename);
-
-    //std::vector<ushint> data = Interface::Hollow::manualImport();
-    std::vector<ushint> data = Interface::Hollow::completefileInport("data0.txt");
+    //Interface::defaultWork();
 
 
 
-    for (ushint index = 0; index < static_cast<ushint>(data.size()); ++index)
-	std::cout << data[index] << std::endl;
-    std::cout << std::endl;
 
-    Interface::StartWork(elements, data);
-    //bool key = false;
-    //outputResult(elements, data, key);
 
     return 0;
 }
