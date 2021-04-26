@@ -9,6 +9,8 @@ namespace Interface
     void StartWork(Elements& elements, std::vector<ushint>& hollow);
     void defaultWork();
 
+    void returnMaxValue(std::vector<ushint> &lineLengths, Elements elements, std::ofstream file);
+
     namespace Hollow
     {
 	std::vector<ushint> manualImport();
