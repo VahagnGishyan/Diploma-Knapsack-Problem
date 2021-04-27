@@ -218,7 +218,7 @@ void Elements::sortByLenght(std::vector<Element>& array)
 
 	    while (LeftBorder + LeftBlockIterator < MidBorder && MidBorder + RightBlockIterator < RightBorder)
 	    {
-		if (array[LeftBorder + LeftBlockIterator].m_priorityCoefficient > array[MidBorder + RightBlockIterator].m_priorityCoefficient)
+		if (array[LeftBorder + LeftBlockIterator].m_length < array[MidBorder + RightBlockIterator].m_length)
 		{
 		    SortedBlock[LeftBlockIterator + RightBlockIterator] = array[LeftBorder + LeftBlockIterator];
 		    LeftBlockIterator += 1;
@@ -328,7 +328,7 @@ Elements& Elements::operator= (const Elements& drob)
     return *this;
 }
 
-std::vector<Element>		Elements::algorithm_knapsack(int Length)
+std::vector<ElementsList>		Elements::algorithm_knapsack(int Length)
 {
     std::vector <std::vector<Element>> elementList(Length + 1);
     std::vector<double> arrayForMaxValue(Length + 1);
@@ -364,7 +364,34 @@ std::vector<Element>		Elements::algorithm_knapsack(int Length)
 	    }
 	}
     }
-    return elementList[Length];
+
+    std::vector<ElementsList> result;
+
+
+    result.push_back(elementList[Length][0]);
+    for (ushint start = 1; start < elementList[Length].size(); ++start)
+    {
+	bool key = true;
+	for (ushint index = 0; index < result.size(); ++index)
+	{
+	    if (result[index].m_element == elementList[Length][start])
+	    {
+		key = false;
+		++result[index].m_count;
+		break;
+	    }
+	}
+	if (key)
+	{
+	    ElementsList object;
+	    object.m_count = 1;
+	    object.m_element = elementList[Length][start];
+	    result.push_back(object);
+	}
+    }
+
+
+    return result;
 }
 double				Elements::algorithm_knapsack_ReturnMaxValue(int Length)
 {
@@ -433,13 +460,9 @@ std::vector<ElementsList>	Elements::knapsack_intermediate(int length)
     sortByLenght(temporaryData);
 
     //We subtract all the elements whose length is greater than the length of the line.
-    if (temporaryData.back().m_length > length)
+    while (temporaryData.back().m_length > length)
     {
-	temporaryData.clear();
-	temporaryData.shrink_to_fit();
-
-	std::vector<ElementsList> forNotError;
-	return forNotError;
+	temporaryData.pop_back();
     }
     if (temporaryData[0].m_length > length)
     {
@@ -450,17 +473,21 @@ std::vector<ElementsList>	Elements::knapsack_intermediate(int length)
 	    return forNotError;
 	}
     }
-
     //If the elements are the same size, the item with the highest cost is selected
-    deleteRepetitionsԼenght(temporaryData);
+    deleteRepetitionsLength(temporaryData);
 
     //We find the greatest cost 
     double maxVale = returnGreatCost(temporaryData);
     //If the largest element in size does not have the greatest value, then that element is meaningless
-    deleteMaxLengthMiniNotMaxElements(temporaryData, maxVale);
+    while (temporaryData.back().m_value < maxVale)
+	temporaryData.pop_back();
+    //deleteMaxLengthNotMaxElements(temporaryData, maxVale);
 
     //Sort by preferences coefficient and lengths.
     sortByPriorityCoefficient(temporaryData);
+
+    //If Priority Coefficients are the same, the one with shorter length is selected
+    deleteRepetitionsPriorityCoefficients(temporaryData);
 
     std::vector<ElementsList> resultElementListFromGreedy = knapsack_forIntermediate_Greedy(temporaryData, length);
     std::vector<ElementsList> resultElementListFromDynamicProgramming = knapsack_forIntermediate_DynamicProgramming(temporaryData, length);
@@ -602,7 +629,7 @@ std::vector<ElementsList>	Elements::knapsack_forIntermediate_DynamicProgramming(
     return (elementList.back());
 }
 
-bool Elements::isMemberDataNumberEmpty()
+bool Elements::			isMemberDataNumberEmpty()
 {
     for (ushint index = 0; index < size(); ++index)
 	if (m_data[index].m_number != 0)
@@ -736,7 +763,7 @@ void	Elements::excludeLongElement(std::vector<Element>& temporaryData, int lengt
     for (ushint start = 0; start < size; ++start)
 	temporaryData[start] = reservData[reservIndex[start]];
 }
-void	Elements::deleteRepetitionsԼenght(std::vector<Element>& temporaryData)
+void	Elements::deleteRepetitionsLength(std::vector<Element>& temporaryData)
 {
     std::vector<ushint> reservIndex;
     reservIndex.push_back(0);
@@ -746,6 +773,33 @@ void	Elements::deleteRepetitionsԼenght(std::vector<Element>& temporaryData)
 	if (temporaryData[start].m_length == temporaryData[reservIndex.back()].m_length)
 	{
 	    if (temporaryData[start].m_value > temporaryData[reservIndex.back()].m_value)
+		reservIndex.back() = start;
+	}
+	else
+	    reservIndex.push_back(start);
+    }
+
+    if (reservIndex.size() == 0)
+	return;
+
+    std::vector<Element> reservData;
+
+    for (ushint start = 0; start < reservIndex.size(); ++start)
+	reservData.push_back(temporaryData[reservIndex[start]]);
+
+    temporaryData = reservData;
+    temporaryData.shrink_to_fit();
+}
+void	Elements::deleteRepetitionsPriorityCoefficients(std::vector<Element>& temporaryData)
+{
+    std::vector<ushint> reservIndex;
+    reservIndex.push_back(0);
+
+    for (ushint start = 1; start < temporaryData.size(); ++start)
+    {
+	if (temporaryData[start].m_priorityCoefficient == temporaryData[reservIndex.back()].m_priorityCoefficient)
+	{
+	    if (temporaryData[start].m_length < temporaryData[reservIndex.back()].m_length)
 		reservIndex.back() = start;
 	}
 	else
@@ -777,7 +831,7 @@ double	Elements::returnGreatCost(std::vector<Element>& temporaryData)
     }
     return (maxValue);
 }
-void	Elements::deleteMaxLengthMiniNotMaxElements(std::vector<Element>& temporaryData, double maxValue)
+void	Elements::deleteMaxLengthNotMaxElements(std::vector<Element>& temporaryData, double maxValue)
 {
     ushint rememberIndex = 0;
     ushint size = static_cast<ushint>(temporaryData.size());
@@ -800,7 +854,7 @@ void	Elements::deleteMaxLengthMiniNotMaxElements(std::vector<Element>& temporary
 }
 void	Elements::decidePreferenceCoefficients()
 {
-    if (m_data[0].m_priorityCoefficient >= 0)
+    if (m_data[0].m_priorityCoefficient > 0)
 	return;
     for (ushint start = 0; start < m_data.size(); ++start)
 	m_data[start].m_priorityCoefficient = m_data[start].m_value / m_data[start].m_length;

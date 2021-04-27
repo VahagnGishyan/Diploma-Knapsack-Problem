@@ -108,7 +108,7 @@ Elements RandomGeneration::ForElements(ushint size, ushint seed)
     return data;
 }
 
-std::vector<ushint> CalculateWorkingTime::ForIntermediate()
+std::vector<ushint> CalculateWorkingTime::ForIntermediate(ushint cycle)
 {
     double startTime = clock()/1000;
     double lastTime  = startTime;
@@ -116,7 +116,7 @@ std::vector<ushint> CalculateWorkingTime::ForIntermediate()
     double resultTimeLine = 0.0;
     double resultTimeHollw = 0.0;
 
-    for (ushint count = 0; count < 100; ++count)
+    for (ushint count = 0; count < cycle; ++count)
     {
 
 	//if (count != 0 && count % 5 == 0)

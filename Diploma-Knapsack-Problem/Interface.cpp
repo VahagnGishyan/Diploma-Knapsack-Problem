@@ -31,7 +31,7 @@ void		    Interface::	StartWork(Elements& elements, std::vector<ushint>& hollow)
     std::cout << "Start Work" << std::endl;
     for (ushint index = 0; index < number; ++index)
     {
-	std::vector<ElementsList> result = elements.knapasck_LimitElement(hollow[index]);
+	std::vector<ElementsList> result = elements.knapsack_intermediate(hollow[index]);
 	std::cout << std::endl;
 	if (result.size() == 0)
 	{
@@ -43,6 +43,8 @@ void		    Interface::	StartWork(Elements& elements, std::vector<ushint>& hollow)
 		result[start].m_element.m_value << ", " <<
 		result[start].m_element.m_length << ", " <<
 		result[start].m_element.m_priorityCoefficient << std::endl;
+
+	    std::cout << result[start].m_count * result[start].m_element.m_value << std::endl;
 	}
     }
 }

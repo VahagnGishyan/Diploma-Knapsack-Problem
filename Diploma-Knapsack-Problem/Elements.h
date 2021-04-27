@@ -47,8 +47,8 @@ private:
 	std::vector<Element> m_data;
 
 	//For Sort
-	void mergSort(std::vector<Element>& Data);
-	void swapElement(Element& object1, Element& object2);
+	void	mergSort(std::vector<Element>& Data);
+	void	swapElement(Element& object1, Element& object2);
 
 	void	sortByLenght(std::vector<Element>& temporaryData);
 	void	sortByPriorityCoefficient(std::vector<Element>& temporaryData);	
@@ -95,7 +95,7 @@ public:
     }
 
 	//Lconum
-	std::vector<Element>		algorithm_knapsack(int Length);
+	std::vector<ElementsList>	algorithm_knapsack(int Length);
 	double				algorithm_knapsack_ReturnMaxValue(int length);
 	std::vector<ElementsList>	algorithm_greedy(int length);
 	double				algorithm_greedy_ReturnMaxValue(int length);
@@ -111,11 +111,13 @@ private:
 	//We delete large elements
 	void	excludeLongElement(std::vector<Element> &temporaryData, int lenght);	
 	// We delete repetitions by length
-	void	deleteRepetitionsԼenght(std::vector<Element>& temporaryData);			
+	void	deleteRepetitionsLength(std::vector<Element>& temporaryData);
+	// We delete repetitions by priority coefficients  
+	void	deleteRepetitionsPriorityCoefficients(std::vector<Element>& temporaryData);
 	// We find the greatest value
 	double  returnGreatCost(std::vector<Element>& temporaryData);				
 	// If the largest element in size does not have the greatest value, then that element is meaningless
-	void	deleteMaxLengthMiniNotMaxElements(std::vector<Element>& temporaryData, double maxValue);														
+	void	deleteMaxLengthNotMaxElements(std::vector<Element>& temporaryData, double maxValue);														
 	// determine the priority coefficients  
 	void decidePreferenceCoefficients();	
 	// Return the largest length starting from the second element

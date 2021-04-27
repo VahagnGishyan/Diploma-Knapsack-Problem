@@ -18,6 +18,6 @@ namespace RandomGeneration
 namespace CalculateWorkingTime
 {
 
-    std::vector<ushint> ForIntermediate();
+    std::vector<ushint> ForIntermediate(ushint cycle = 1);
     //double CalculateWorkingTime();
 }
