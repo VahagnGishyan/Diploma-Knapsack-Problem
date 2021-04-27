@@ -13,11 +13,16 @@ namespace RandomGeneration
     std::vector<ushint> ForHollow(ushint size, ushint seed = 4541);
     void ForElements(std::string filename, ushint size, ushint seed = 4541);
     Elements ForElements(ushint size, ushint seed = 4541);
+
+    
 }
+
+
 
 namespace CalculateWorkingTime
 {
 
     std::vector<double> ForIntermediate(ushint cycle = 1);
+    std::vector<double> ForDynamicProgramming(ushint cycle = 1);
     //double CalculateWorkingTime();
 }

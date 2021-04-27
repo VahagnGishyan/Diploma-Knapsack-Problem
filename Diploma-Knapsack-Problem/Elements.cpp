@@ -328,7 +328,7 @@ Elements& Elements::operator= (const Elements& drob)
     return *this;
 }
 
-std::vector<ElementsList>		Elements::algorithm_knapsack(int Length)
+std::vector<ElementsList>		Elements::knapsack_DynamicProgramming(int Length)
 {
     std::vector <std::vector<Element>> elementList(Length + 1);
     std::vector<double> arrayForMaxValue(Length + 1);
@@ -393,7 +393,7 @@ std::vector<ElementsList>		Elements::algorithm_knapsack(int Length)
 
     return result;
 }
-double				Elements::algorithm_knapsack_ReturnMaxValue(int Length)
+double				Elements::knapsack_DynamicProgramming_ReturnMaxValue(int Length)
 {
     size_t n = m_data.size();
 

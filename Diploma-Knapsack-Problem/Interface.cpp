@@ -55,7 +55,7 @@ void Interface::returnMaxValue(std::vector<ushint>& lineLengths, Elements elemen
     const ushint size = static_cast<ushint>(lineLengths.size());
     for (ushint start = 0; start < size; ++start)
     {
-	file << elements.algorithm_knapsack_ReturnMaxValue(lineLengths[start]);
+	file << elements.knapsack_DynamicProgramming_ReturnMaxValue(lineLengths[start]);
 	if (start + 1 != size)
 	    file << std::endl;
     }

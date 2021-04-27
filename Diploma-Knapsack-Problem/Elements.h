@@ -95,8 +95,8 @@ public:
     }
 
 	//Lconum
-	std::vector<ElementsList>	algorithm_knapsack(int Length);
-	double				algorithm_knapsack_ReturnMaxValue(int length);
+	std::vector<ElementsList>	knapsack_DynamicProgramming(int Length);
+	double				knapsack_DynamicProgramming_ReturnMaxValue(int length);
 	std::vector<ElementsList>	algorithm_greedy(int length);
 	double				algorithm_greedy_ReturnMaxValue(int length);
 
