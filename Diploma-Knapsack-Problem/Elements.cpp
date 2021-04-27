@@ -459,6 +459,13 @@ std::vector<ElementsList>	Elements::knapsack_intermediate(int length)
     //Sort by lengths
     sortByLenght(temporaryData);
 
+    if (temporaryData.empty())
+    {
+	std::cerr << "In intermediate alg. temporary data is empty" << std::endl;
+	std::cerr << "Error 2" << std::endl;
+    }
+	
+
     //We subtract all the elements whose length is greater than the length of the line.
     while (temporaryData.back().m_length > length)
     {
@@ -478,6 +485,13 @@ std::vector<ElementsList>	Elements::knapsack_intermediate(int length)
 
     //We find the greatest cost 
     double maxVale = returnGreatCost(temporaryData);
+
+    if (temporaryData.empty())
+    {
+	std::cerr << "In intermediate alg. temporary data is empty" << std::endl;
+	std::cerr << "Error 2" << std::endl;
+    }
+	
     //If the largest element in size does not have the greatest value, then that element is meaningless
     while (temporaryData.back().m_value < maxVale)
 	temporaryData.pop_back();
@@ -574,6 +588,11 @@ std::vector<ElementsList>	Elements::knapsack_forIntermediate_DynamicProgramming(
 
     if (length == 0)
 	return elementList[0];
+    if (data.empty())
+    {
+	std::cerr << "In Dynamic prog intermediate alg. temporary data is empty" << std::endl;
+	std::cerr << "Error 3" << std::endl;
+    }
 
     std::vector<double> arrayForMaxValue(length + 1);
 

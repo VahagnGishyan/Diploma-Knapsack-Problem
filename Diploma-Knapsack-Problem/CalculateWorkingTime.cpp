@@ -108,15 +108,21 @@ Elements RandomGeneration::ForElements(ushint size, ushint seed)
     return data;
 }
 
-std::vector<ushint> CalculateWorkingTime::ForIntermediate(ushint cycle)
+std::vector<double> CalculateWorkingTime::ForIntermediate(ushint cycle)
 {
     double startTime = clock()/1000;
     double lastTime  = startTime;
 
     double resultTimeLine = 0.0;
+    double resultTimeLineCount = 0;
     double resultTimeHollw = 0.0;
 
-    for (ushint count = 0; count < cycle; ++count)
+    //constexpr ushint dataMaxSize = 1000;
+    //uint dataIndex = 0;
+    //std::array<double,dataMaxSize> data;
+    //std::vector<double> dataAssistent;
+
+    for (ushint count = 0; count < 1; ++count)
     {
 
 	//if (count != 0 && count % 5 == 0)
@@ -140,8 +146,6 @@ std::vector<ushint> CalculateWorkingTime::ForIntermediate(ushint cycle)
 	{
 	    double HollowWorkTime = 0.0;
 
-	    //std::cout << "\t" << count << std::endl;
-
 	    std::vector<ushint> hollow = RandomGeneration::ForHollow(100, seed);
 	    Elements elements = RandomGeneration::ForElements(32, seed);
 
@@ -155,27 +159,72 @@ std::vector<ushint> CalculateWorkingTime::ForIntermediate(ushint cycle)
 	    {
 		//std::cout << "\t\t" << index << std::endl;
 
+		int lineLength = hollow.at(index);
+
 		ulong start_time = clock();
-		elements.knapsack_intermediate(hollow.at(index));
+		elements.knapsack_intermediate(lineLength);
 		ulong end_time = clock();
+		
+		ulong timeChange = end_time - start_time;
 
-		HollowWorkTime += end_time - start_time;
+		if (timeChange > 15)
+		{
+		    timeChange = 1;
+		}
 
-		timeLine += end_time - start_time;
+		HollowWorkTime += timeChange;
+
+
+
+		timeLine += timeChange;
 		++timeLineCount;
+
+		//if (dataIndex < dataMaxSize)
+		//    data[dataIndex] = timeChange;
+		//else
+		//    dataAssistent.push_back(timeChange);
+		//++dataIndex;
 	    }
+	    
+	    //double result = timeLine / timeLineCount;
+	    //std::cout << "\ttimeLine" << timeLine << std::endl;
+	    //std::cout << "\timeLineCount" << timeLineCount << std::endl;
+	    //std::cout << "\tresult :: " << result << std::endl;
+	    //std::cout << std::endl;
+	 //   if (result > 5)
+	 //   {
+		//for (ushint start = 0; start < hollow.size(); ++start)
+		//{
+		//    std::cout << hollow[start] << ", ";
+		//    if (start != 0 && start % 19 == 0)
+		//    {
+		//	std::cout << std::endl;
+		//    }
+		//}
+		//std::cout << std::endl;
+		//for (ushint start = 0; start < elements.size(); ++start)
+		//{
+		//    std::cout << elements[start] << std::endl;
+		//}
+
+		//std::vector<double> forNotError;
+		//return forNotError;
+	 //   }
+
+
 	    timeHollw += (static_cast<double>(HollowWorkTime));
 	    ++timeHollwCount;
 	}
 
 	timeLine /= timeLineCount;
 	resultTimeLine += timeLine;
+	++resultTimeLineCount;
 
 	timeHollw /= timeHollwCount;
 	resultTimeHollw = timeHollw;
     }
 
-    resultTimeLine /= 100;
+    resultTimeLine /= resultTimeLineCount;
 
     double endTime = clock() / 1000;
     std::cout << 100 << std::endl;
@@ -187,8 +236,38 @@ std::vector<ushint> CalculateWorkingTime::ForIntermediate(ushint cycle)
     std::cout << "Work Line   time :: " << resultTimeLine << "ms"  << std::endl;
     std::cout << "Work Hollow time :: " << resultTimeHollw << "ms" << std::endl;
 
+    std::cout << std::endl;
+    double dataResult = 0;
+   /* if (dataIndex >= dataMaxSize)
+    {
+	const ushint size = data.size();
+	for (ushint index = 0; index < size; ++index)
+	{
+	    std::cout << data[index] << ", ";
+	    if (index != 0 && index % 25 == 0)
+		std::cout << std::endl;
+	    dataResult += data[index];
+	}
+	for (ushint index = 0; index < dataAssistent.size(); ++index)
+	{
+	    std::cout << dataAssistent[index] << " ";
+	    dataResult += dataAssistent[index];
+	}
+    }
+    else
+    {
+	for (ushint index = 0; index < dataIndex; ++index)
+	{
+	    std::cout << data[index] << " ";
+	    if (index != 0 && index % 25 == 0)
+		std::cout << std::endl;
+	    dataResult += data[index];
+	}
+    }*/
 
 
-    std::vector<ushint> forNotError;
+    //std::cout << "\nResult :: " << dataResult / dataIndex << std::endl;
+
+    std::vector<double> forNotError;
     return forNotError;
 }

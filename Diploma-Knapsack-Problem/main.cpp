@@ -42,9 +42,9 @@ int main()
 {
     std::cout << "Start main()" << std::endl;
 
-    Interface::defaultWork();
+    //Interface::defaultWork();
 
-    //CalculateWorkingTime::ForIntermediate(100);
+    CalculateWorkingTime::ForIntermediate(100);
 
     return 0;
 }
