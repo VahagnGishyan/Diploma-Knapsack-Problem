@@ -318,36 +318,6 @@ std::vector<double> CalculateWorkingTime::ForDynamicProgramming(ushint cycle)
 	    if (elements.size() == 0)
 		continue;
 
-	    for (ushint index = 0; index < hollow.size(); ++index)
-	    {
-		//std::cout << "\t\t" << index << std::endl;
-
-		int lineLength = hollow.at(index);
-
-		ulong start_time = clock();
-		elements.knapsack_DynamicProgramming(lineLength);
-		ulong end_time = clock();
-
-		ulong timeChange = end_time - start_time;
-
-		if (timeChange > 15)
-		{
-		    timeChange = 1;
-		}
-
-		HollowWorkTime += timeChange;
-
-
-
-		timeLine += timeChange;
-		++timeLineCount;
-
-		//if (dataIndex < dataMaxSize)
-		//    data[dataIndex] = timeChange;
-		//else
-		//    dataAssistent.push_back(timeChange);
-		//++dataIndex;
-	    }
 
 	    //double result = timeLine / timeLineCount;
 	    //std::cout << "\ttimeLine" << timeLine << std::endl;
