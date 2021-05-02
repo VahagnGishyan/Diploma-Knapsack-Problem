@@ -6,6 +6,7 @@
 #include <array>
 #include <string>
 #include <fstream>
+#include <ctime>
 
 typedef short int shInt;
 typedef unsigned int uInt;
