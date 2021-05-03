@@ -76,7 +76,7 @@ public:
     }
     void setNumbers(int index, int number = 2)
     {
-	m_data[index].m_number = number;
+	m_data.at(index).m_number = number;
     }
     ushint size() const 
     {
@@ -91,7 +91,7 @@ public:
     Elements& operator= (const Elements& drob);
     Element& operator[](int index)
     {
-	return m_data[index];
+	return m_data.at(index);	    
     }
 
 	//Lconum
@@ -104,6 +104,9 @@ public:
 	std::vector<ElementsList>	knapsack_forIntermediate_Greedy(std::vector<Element>& temporaryData, int& length);
 	std::vector<ElementsList>	knapsack_forIntermediate_DynamicProgramming(const std::vector<Element>& temporaryData, int& length);
 
+	//Limited
+	std::vector<ElementsList>	knapasck_LimitGready(int length);
+	std::vector<ElementsList>	knapasck_LimitDynamicProgramming(int length);
 	std::vector<ElementsList>	knapasck_LimitElement(int length);
 
 private:

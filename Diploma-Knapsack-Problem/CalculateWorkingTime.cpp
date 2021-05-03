@@ -147,7 +147,7 @@ std::vector<ushint>  RandomGeneration::      ForHollow(ushint size, ushint seed)
 
     return hollow;
 }
-std::vector<ushint>  RandomGeneration::      ForHollow(const inputChars& inputArgument, ushint seed = 4541)
+std::vector<ushint>  RandomGeneration::      ForHollow(const inputChars& inputArgument, ushint seed)
 {
     srand(seed);
 
@@ -233,7 +233,7 @@ Elements             RandomGeneration::      ForElements(ushint size, ushint see
 
     return data;
 }
-Elements             RandomGeneration::      ForElements(const inputChars& inputArgument, ushint seed = 4541)
+Elements             RandomGeneration::      ForElements(const inputChars& inputArgument, ushint seed)
 {
     srand(seed);
 
@@ -466,14 +466,12 @@ std::vector<double> CalculateWorkingTime::ForDynamicProgramming(ushint cycle)
 	double timeHollw = 0.0;
 	ushint timeHollwCount = 0;
 
-	ushint seed = static_cast<ushint>(time(0));
-
 	for (ushint start = 0; start < 100; ++start)
 	{
 	    double HollowWorkTime = 0.0;
 
-	    std::vector<ushint> hollow = RandomGeneration::ForHollow(100, seed);
-	    Elements elements = RandomGeneration::ForElements(32, seed);
+	    std::vector<ushint> hollow = RandomGeneration::ForHollow(100);
+	    Elements elements = RandomGeneration::ForElements(32);
 
 	    if (hollow.size() == 0)
 		continue;
@@ -568,3 +566,279 @@ std::vector<double> CalculateWorkingTime::ForDynamicProgramming(ushint cycle)
     return forNotError;
 }
 
+//Limithed
+double CalculateWorkingTime::ForGready(const inputChars& InputState)
+{
+    const ushint cycle = InputState.getCycle();
+
+    double HollowWorkTime = 0.0;
+    ulong  HollowWorkCount = 0;
+    double LineWorkTime = 0.0;
+    ulong  LineWorkCount = 0;
+
+    for (ushint start = 0; start < cycle; ++start)
+    {
+	std::vector<ushint> hollow = RandomGeneration::ForHollow(InputState);
+	Elements elements = RandomGeneration::ForElements(InputState);
+
+	if (hollow.size() == 0)
+	{
+	    std::cout << "Hollow size == 0" << std::endl;
+	    continue;
+	}
+	if (elements.size() == 0)
+	{
+	    std::cout << "Elements size == 0" << std::endl;
+	    continue;
+	}
+
+	for (ushint index = 0; index < hollow.size(); ++index)
+	{
+	    //std::cout << "\t\t" << index << std::endl;
+
+	    int lineLength = hollow.at(index);
+
+	    ulong start_time = clock();
+	    elements.knapasck_LimitGready(lineLength);
+	    ulong end_time = clock();
+
+	    ulong timeChange = end_time - start_time;
+
+	    HollowWorkTime += timeChange;
+
+	    LineWorkTime += timeChange;
+	    ++LineWorkCount;
+	}
+	++HollowWorkCount;
+    }
+
+    HollowWorkTime = HollowWorkTime / HollowWorkCount;
+    LineWorkTime = LineWorkTime / LineWorkCount;
+
+    std::cout << "\nResult" << std::endl;
+    std::cout << "Work Line   time :: " << LineWorkTime << "ms" << std::endl;
+    std::cout << "Work Hollow time :: " << HollowWorkTime << "ms" << std::endl;
+
+    return LineWorkTime;
+}
+//double CalculateWorkingTime::ForNameDP(const inputChars& InputState)
+//{
+//
+//}
+double CalculateWorkingTime::ForLimitElement(const inputChars& InputState)
+{
+    const ushint cycle = InputState.getCycle();
+
+    double HollowWorkTime = 0.0;
+    ulong  HollowWorkCount = 0;
+    double LineWorkTime = 0.0;
+    ulong  LineWorkCount = 0;
+
+    for (ushint start = 0; start < cycle; ++start)
+    {
+	std::vector<ushint> hollow = RandomGeneration::ForHollow(InputState);
+	Elements elements = RandomGeneration::ForElements(InputState);
+
+	if (hollow.size() == 0)
+	{
+	    std::cout << "Hollow size == 0" << std::endl;
+	    continue;
+	}
+	if (elements.size() == 0)
+	{
+	    std::cout << "Elements size == 0" << std::endl;
+	    continue;
+	}
+
+	for (ushint index = 0; index < hollow.size(); ++index)
+	{
+	    //std::cout << "\t\t" << index << std::endl;
+
+	    int lineLength = hollow.at(index);
+
+	    ulong start_time = clock();
+	    elements.knapasck_LimitElement(lineLength);
+	    ulong end_time = clock();
+
+	    ulong timeChange = end_time - start_time;
+
+	    HollowWorkTime += timeChange;
+
+	    LineWorkTime += timeChange;
+	    ++LineWorkCount;
+	}
+	++HollowWorkCount;
+    }
+
+    HollowWorkTime = HollowWorkTime / HollowWorkCount;
+    LineWorkTime = LineWorkTime / LineWorkCount;
+
+    std::cout << "\nResult" << std::endl;
+    std::cout << "Work Line   time :: " << LineWorkTime << "ms" << std::endl;
+    std::cout << "Work Hollow time :: " << HollowWorkTime << "ms" << std::endl;
+
+    return LineWorkTime;
+}
+//UnLimithed
+double CalculateWorkingTime::ForGready(const inputChars& InputState)
+{
+    const ushint cycle = InputState.getCycle();
+
+    double HollowWorkTime = 0.0;
+    ulong  HollowWorkCount = 0;
+    double LineWorkTime = 0.0;
+    ulong  LineWorkCount = 0;
+
+    for (ushint start = 0; start < cycle; ++start)
+    {
+	std::vector<ushint> hollow = RandomGeneration::ForHollow(InputState);
+	Elements elements = RandomGeneration::ForElements(InputState);
+
+	if (hollow.size() == 0)
+	{
+	    std::cout << "Hollow size == 0" << std::endl;
+	    continue;
+	}
+	if (elements.size() == 0)
+	{
+	    std::cout << "Elements size == 0" << std::endl;
+	    continue;
+	}
+
+	for (ushint index = 0; index < hollow.size(); ++index)
+	{
+	    //std::cout << "\t\t" << index << std::endl;
+
+	    int lineLength = hollow.at(index);
+
+	    ulong start_time = clock();
+	    elements.algorithm_greedy(lineLength);
+	    ulong end_time = clock();
+
+	    ulong timeChange = end_time - start_time;
+
+	    HollowWorkTime += timeChange;
+
+	    LineWorkTime += timeChange;
+	    ++LineWorkCount;
+	}
+	++HollowWorkCount;
+    }
+
+    HollowWorkTime = HollowWorkTime / HollowWorkCount;
+    LineWorkTime = LineWorkTime / LineWorkCount;
+
+    std::cout << "\nResult" << std::endl;
+    std::cout << "Work Line   time :: " << LineWorkTime << "ms" << std::endl;
+    std::cout << "Work Hollow time :: " << HollowWorkTime << "ms" << std::endl;
+
+    return LineWorkTime;
+}
+double CalculateWorkingTime::ForDynamicProgramming(const inputChars& InputState)
+{
+    const ushint cycle = InputState.getCycle();
+
+    double HollowWorkTime = 0.0;
+    ulong  HollowWorkCount = 0;
+    double LineWorkTime = 0.0;
+    ulong  LineWorkCount = 0;
+
+    for (ushint start = 0; start < cycle; ++start)
+    {
+	std::vector<ushint> hollow = RandomGeneration::ForHollow(InputState);
+	Elements elements = RandomGeneration::ForElements(InputState);
+
+	if (hollow.size() == 0)
+	{
+	    std::cout << "Hollow size == 0" << std::endl;
+	    continue;
+	}
+	if (elements.size() == 0)
+	{
+	    std::cout << "Elements size == 0" << std::endl;
+	    continue;
+	}
+
+	for (ushint index = 0; index < hollow.size(); ++index)
+	{
+	    //std::cout << "\t\t" << index << std::endl;
+
+	    int lineLength = hollow.at(index);
+
+	    ulong start_time = clock();
+	    elements.knapsack_DynamicProgramming(lineLength);
+	    ulong end_time = clock();
+
+	    ulong timeChange = end_time - start_time;
+
+	    HollowWorkTime += timeChange;
+
+	    LineWorkTime += timeChange;
+	    ++LineWorkCount;
+	}
+	++HollowWorkCount;
+    }
+
+    HollowWorkTime = HollowWorkTime / HollowWorkCount;
+    LineWorkTime = LineWorkTime / LineWorkCount;
+
+    std::cout << "\nResult" << std::endl;
+    std::cout << "Work Line   time :: " << LineWorkTime << "ms" << std::endl;
+    std::cout << "Work Hollow time :: " << HollowWorkTime << "ms" << std::endl;
+
+    return LineWorkTime;
+}
+double CalculateWorkingTime::ForIntermediate(const inputChars& InputState)
+{
+    const ushint cycle = InputState.getCycle();
+
+    double HollowWorkTime = 0.0;
+    ulong  HollowWorkCount = 0;
+    double LineWorkTime = 0.0;
+    ulong  LineWorkCount = 0;
+
+    for (ushint start = 0; start < cycle; ++start)
+    {
+	std::vector<ushint> hollow = RandomGeneration::ForHollow(InputState);
+	Elements elements = RandomGeneration::ForElements(InputState);
+
+	if (hollow.size() == 0)
+	{
+	    std::cout << "Hollow size == 0" << std::endl;
+	    continue;
+	}
+	if (elements.size() == 0)
+	{
+	    std::cout << "Elements size == 0" << std::endl;
+	    continue;
+	}
+
+	for (ushint index = 0; index < hollow.size(); ++index)
+	{
+	    //std::cout << "\t\t" << index << std::endl;
+
+	    int lineLength = hollow.at(index);
+
+	    ulong start_time = clock();
+	    elements.knapsack_intermediate(lineLength);
+	    ulong end_time = clock();
+
+	    ulong timeChange = end_time - start_time;
+
+	    HollowWorkTime += timeChange;
+
+	    LineWorkTime += timeChange;
+	    ++LineWorkCount;
+	}
+	++HollowWorkCount;
+    }
+
+    HollowWorkTime = HollowWorkTime / HollowWorkCount;
+    LineWorkTime   = LineWorkTime   / LineWorkCount;
+
+    std::cout << "\nResult" << std::endl;
+    std::cout << "Work Line   time :: " << LineWorkTime << "ms" << std::endl;
+    std::cout << "Work Hollow time :: " << HollowWorkTime << "ms" << std::endl;
+
+    return LineWorkTime;
+}

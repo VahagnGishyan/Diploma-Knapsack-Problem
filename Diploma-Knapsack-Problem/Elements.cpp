@@ -97,7 +97,6 @@ Elements::Elements(std::string filename)
 	    }
 	    else if(reservNumber.size())
 	    {
-		temporaryData[start].push_back(std::stoi(reservNumber));
 		reservNumber = "";
 	    }
 	}
@@ -328,7 +327,7 @@ Elements& Elements::operator= (const Elements& drob)
     return *this;
 }
 
-std::vector<ElementsList>		Elements::knapsack_DynamicProgramming(int Length)
+std::vector<ElementsList>	Elements::knapsack_DynamicProgramming(int Length)
 {
     std::vector <std::vector<Element>> elementList(Length + 1);
     std::vector<double> arrayForMaxValue(Length + 1);
@@ -655,6 +654,47 @@ bool Elements::			isMemberDataNumberEmpty()
 	    return false;
     return true;
 }
+std::vector<ElementsList>	Elements::knapasck_LimitGready(int length)
+{
+    std::vector<Element> temporaryData = m_data;
+    std::vector<ElementsList> reservElements;
+
+    sortByPriorityCoefficient(temporaryData);
+
+    for (ushint start = 0; start < temporaryData.size(); ++start)
+    {
+	if (temporaryData.at(start).m_number > 0)
+	{
+	    if (temporaryData.at(start).m_length <= length)
+	    {
+		ushint count = static_cast<ushint>(length / temporaryData.at(start).m_length);
+		if (count > 0)
+		{
+		    if (temporaryData.at(start).m_number > count)
+		    {
+			temporaryData.at(start).m_number - count;
+			ElementsList object;
+			object.m_count = count;
+			object.m_element = temporaryData.at(start);
+			reservElements.push_back(object);
+			length -= count * temporaryData.at(start).m_length;
+		    }
+		    else
+		    {
+			count = temporaryData.at(start).m_number;
+			ElementsList object;
+			object.m_count = count;
+			object.m_element = temporaryData.at(start);
+			reservElements.push_back(object);
+			length -= count * temporaryData.at(start).m_length;
+		    }
+		}
+	    }
+	}
+    }
+    return (reservElements);
+}
+//std::vector<ElementsList>	Elements::knapasck_LimitDynamicProgramming(int length);
 std::vector<ElementsList>	Elements::knapasck_LimitElement(int length)
 {
     assert(length > 0 && "Length is not posytive");
