@@ -1,6 +1,109 @@
 #include "CalculateWorkingTime.h"
 
-void RandomGeneration::ForHollow(std::string filename, ushint size, ushint seed)
+InputCharacteristic::InputCharacteristic()
+{
+    m_elementsCount    = 0;
+
+    m_elementsLength   = 0;
+    m_elementsValue    = 0;
+    m_elementsNumber   = 0;
+
+    m_lineCount        = 0;
+    m_lineLength       = 0;
+
+    m_cycle            = 0;
+}
+InputCharacteristic::InputCharacteristic(int eCount, int eLength, int eValue, int eNumber, int lCount, int lLength, int cycle)
+{
+    m_elementsCount  = eCount;
+
+    m_elementsLength = eLength;
+    m_elementsValue  = eValue;
+    m_elementsNumber = eNumber;
+
+    m_lineCount      = lCount;
+    m_lineLength     = lLength;
+
+    m_cycle          = cycle;
+}
+
+void InputCharacteristic::setElementsCount(int count)
+{
+    m_elementsCount = count;
+}
+void InputCharacteristic::setElementsLength(int length)
+{
+    m_elementsLength = length;
+}
+void InputCharacteristic::setElementsValue(int value)
+{
+    m_elementsValue = value;
+}
+void InputCharacteristic::setElementsNumber(int number)
+{
+    m_elementsNumber = number;
+}
+void InputCharacteristic::setLineCount(int count)
+{
+    m_lineCount = count;
+}
+void InputCharacteristic::setLineLength(int length)
+{
+    m_lineLength = length;
+}
+void InputCharacteristic::setCycle(int cycle)
+{
+    m_cycle = cycle;
+}
+
+uint InputCharacteristic::getElementsCount() const 
+{
+    return m_elementsCount;
+}
+uint InputCharacteristic::getElementsLength() const
+{
+    return m_elementsLength;
+}
+uint InputCharacteristic::getElementsValue() const
+{
+    return m_elementsValue;
+}
+uint InputCharacteristic::getElementsNumber() const
+{
+    return m_elementsNumber;
+}
+uint InputCharacteristic::getLineCount() const
+{
+    return m_lineCount;
+}
+uint InputCharacteristic::getLineLength() const
+{
+    return m_lineLength;
+}
+uint InputCharacteristic::getCycle() const
+{
+    return m_cycle;
+}
+
+void OutputCharacteristic::setElementsLimit(bool answer)
+{
+    m_elementsLimit = answer;
+}
+void OutputCharacteristic::setResultList(bool answer)
+{
+    m_resultList = answer;
+}
+
+bool                 OutputCharacteristic::  getElementsLimit() const 
+{
+    return m_elementsLimit;
+}
+bool                 OutputCharacteristic::  getResultList() const
+{
+    return m_resultList;
+}
+
+void                 RandomGeneration::      ForHollow(std::string filename, ushint size, ushint seed)
 {
     srand(seed);
 
@@ -25,7 +128,7 @@ void RandomGeneration::ForHollow(std::string filename, ushint size, ushint seed)
     }     
     while (--size);
 }
-std::vector<ushint> RandomGeneration::ForHollow(ushint size, ushint seed)
+std::vector<ushint>  RandomGeneration::      ForHollow(ushint size, ushint seed)
 {
     srand(seed);
 
@@ -44,7 +147,30 @@ std::vector<ushint> RandomGeneration::ForHollow(ushint size, ushint seed)
 
     return hollow;
 }
-void RandomGeneration::ForElements(std::string filename, ushint size, ushint seed)
+std::vector<ushint>  RandomGeneration::      ForHollow(const inputChars& inputArgument, ushint seed = 4541)
+{
+    srand(seed);
+
+    std::vector<ushint> hollow;
+    size_t size = static_cast<size_t>(inputArgument.getLineCount());
+    int maxLineLength = inputArgument.getLineLength();
+
+    hollow.resize(size);
+
+    for (ushint index = 0; index < size; ++index)
+    {
+	hollow[index] = rand() % maxLineLength;
+	if (hollow[index] == 0)
+	{
+	    hollow[index] = maxLineLength;
+	}
+    }
+
+    return hollow;
+}
+
+
+void                 RandomGeneration::      ForElements(std::string filename, ushint size, ushint seed)
 {
     srand(seed);
 
@@ -74,7 +200,7 @@ void RandomGeneration::ForElements(std::string filename, ushint size, ushint see
     }     
     while (--size);
 }
-Elements RandomGeneration::ForElements(ushint size, ushint seed)
+Elements             RandomGeneration::      ForElements(ushint size, ushint seed)
 {
     srand(seed);
 
@@ -98,6 +224,43 @@ Elements RandomGeneration::ForElements(ushint size, ushint seed)
 	ushint number = rand() % 64;
 	if (number == 0)
 	    number = 64;
+	object.m_number = number;
+
+	object.m_priorityCoefficient = static_cast<double>(value) / static_cast<double>(length);
+
+	data[index] = object;
+    }
+
+    return data;
+}
+Elements             RandomGeneration::      ForElements(const inputChars& inputArgument, ushint seed = 4541)
+{
+    srand(seed);
+
+    const int    elementsLength = static_cast<int>(inputArgument.getElementsLength());
+    const int    elementsValue  = static_cast<int>(inputArgument.getElementsValue());
+    const int    elementsNumber = static_cast<int>(inputArgument.getElementsNumber());
+    const size_t elementsCount  = static_cast<size_t>(inputArgument.getElementsCount());
+    Elements data;
+    data.resize(elementsCount);
+
+    for (ushint index = 0; index < elementsCount; ++index)
+    {
+	Element object;
+
+	ushint length = rand() % elementsLength;
+	if (length == 0)
+	    length = elementsLength;
+	object.m_length = length;
+
+	ushint value = rand() % elementsValue;
+	if (value == 0)
+	    value = elementsValue;
+	object.m_value = value;
+
+	ushint number = rand() % elementsNumber;
+	if (number == 0)
+	    number = elementsNumber;
 	object.m_number = number;
 
 	object.m_priorityCoefficient = static_cast<double>(value) / static_cast<double>(length);
@@ -404,3 +567,4 @@ std::vector<double> CalculateWorkingTime::ForDynamicProgramming(ushint cycle)
     std::vector<double> forNotError;
     return forNotError;
 }
+
