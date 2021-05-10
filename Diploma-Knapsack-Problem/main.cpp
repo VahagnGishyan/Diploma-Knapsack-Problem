@@ -11,10 +11,13 @@ int main()
     //Interface::defaultWork();
 
     CalculateWorkingTime::ForIntermediate(staticDefaulCharsData::default16);
+    CalculateWorkingTime::ForDynamicProgramming(staticDefaulCharsData::default16);
+
     CalculateWorkingTime::ForIntermediate(staticDefaulCharsData::default32);
+    CalculateWorkingTime::ForDynamicProgramming(staticDefaulCharsData::default32);
+
     CalculateWorkingTime::ForIntermediate(staticDefaulCharsData::default64);
-    CalculateWorkingTime::ForIntermediate(staticDefaulCharsData::default128);
-    CalculateWorkingTime::ForIntermediate(staticDefaulCharsData::default256);
+    CalculateWorkingTime::ForDynamicProgramming(staticDefaulCharsData::default64);
 
     return 0;
 }

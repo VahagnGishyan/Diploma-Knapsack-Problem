@@ -84,13 +84,13 @@ namespace CalculateWorkingTime
     std::vector<double> ForDynamicProgramming(ushint cycle);
 
     //Limithed
-    double ForGready(const inputChars& InputState = default32);	    //gready
-    double ForNameDP(const inputChars& InputState = default32);		    //dynamic programming
-    double ForLimitElement(const inputChars& InputState = default32);	    //intermediate
+/*    double ForGready(inputChars InputState = default32);*/	    //gready
+/*    double ForNameDP(inputChars InputState = default32);*/		    //dynamic programming
+    double ForLimitElement(inputChars InputState = default32);	    //intermediate
 
     //UnLimithed
-    double ForGready(const inputChars& InputState = default32);		    //gready
-    double ForDynamicProgramming(const inputChars& InputState = default32); //dynamic programming
-    double ForIntermediate(const inputChars& InputState = default32);	    //intermediate
+    double ForGready(inputChars InputState = default32);		    //gready
+    double ForDynamicProgramming(inputChars InputState = default32); //dynamic programming
+    double ForIntermediate(inputChars InputState = default32);	    //intermediate
 
 }
