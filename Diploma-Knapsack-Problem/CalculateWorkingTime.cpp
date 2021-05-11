@@ -1,6 +1,6 @@
 #include "CalculateWorkingTime.h"
 
-InputCharacteristic::InputCharacteristic()
+InputCharacteristic::                        InputCharacteristic()
 {
     m_elementsCount    = 0;
 
@@ -13,7 +13,7 @@ InputCharacteristic::InputCharacteristic()
 
     m_cycle            = 0;
 }
-InputCharacteristic::InputCharacteristic(int eCount, int eLength, int eValue, int eNumber, int lCount, int lLength, int cycle)
+InputCharacteristic::                        InputCharacteristic(int eCount, int eLength, int eValue, int eNumber, int lCount, int lLength, int cycle)
 {
     m_elementsCount  = eCount;
 
@@ -27,69 +27,69 @@ InputCharacteristic::InputCharacteristic(int eCount, int eLength, int eValue, in
     m_cycle          = cycle;
 }
 
-void InputCharacteristic::setElementsCount(int count)
+void InputCharacteristic::                   setElementsCount(int count)
 {
     m_elementsCount = count;
 }
-void InputCharacteristic::setElementsLength(int length)
+void InputCharacteristic::                   setElementsLength(int length)
 {
     m_elementsLength = length;
 }
-void InputCharacteristic::setElementsValue(int value)
+void InputCharacteristic::                   setElementsValue(int value)
 {
     m_elementsValue = value;
 }
-void InputCharacteristic::setElementsNumber(int number)
+void InputCharacteristic::                   setElementsNumber(int number)
 {
     m_elementsNumber = number;
 }
-void InputCharacteristic::setLineCount(int count)
+void InputCharacteristic::                   setLineCount(int count)
 {
     m_lineCount = count;
 }
-void InputCharacteristic::setLineLength(int length)
+void InputCharacteristic::                   setLineLength(int length)
 {
     m_lineLength = length;
 }
-void InputCharacteristic::setCycle(int cycle)
+void InputCharacteristic::                   setCycle(int cycle)
 {
     m_cycle = cycle;
 }
 
-uint InputCharacteristic::getElementsCount() const 
+uint InputCharacteristic::                   getElementsCount() const
 {
     return m_elementsCount;
 }
-uint InputCharacteristic::getElementsLength() const
+uint InputCharacteristic::                   getElementsLength() const
 {
     return m_elementsLength;
 }
-uint InputCharacteristic::getElementsValue() const
+uint InputCharacteristic::                   getElementsValue() const
 {
     return m_elementsValue;
 }
-uint InputCharacteristic::getElementsNumber() const
+uint InputCharacteristic::                   getElementsNumber() const
 {
     return m_elementsNumber;
 }
-uint InputCharacteristic::getLineCount() const
+uint InputCharacteristic::                   getLineCount() const
 {
     return m_lineCount;
 }
-uint InputCharacteristic::getLineLength() const
+uint InputCharacteristic::                   getLineLength() const
 {
     return m_lineLength;
 }
-uint InputCharacteristic::getCycle() const
+uint InputCharacteristic::                   getCycle() const
 {
     return m_cycle;
 }
 
-void OutputCharacteristic::setElementsLimit(bool answer)
+void OutputCharacteristic::                  setElementsLimit(bool answer)
 {
     m_elementsLimit = answer;
 }
-void OutputCharacteristic::setResultList(bool answer)
+void OutputCharacteristic::                  setResultList(bool answer)
 {
     m_resultList = answer;
 }
@@ -271,7 +271,7 @@ Elements             RandomGeneration::      ForElements(const inputChars& input
     return data;
 }
 
-std::vector<double> CalculateWorkingTime::ForIntermediate(ushint cycle)
+std::vector<double> CalculateWorkingTime::   ForIntermediate(ushint cycle)
 {
     double startTime = clock()/1000;
     double lastTime  = startTime;
@@ -434,7 +434,7 @@ std::vector<double> CalculateWorkingTime::ForIntermediate(ushint cycle)
     std::vector<double> forNotError;
     return forNotError;
 }
-std::vector<double> CalculateWorkingTime::ForDynamicProgramming(ushint cycle)
+std::vector<double> CalculateWorkingTime::   ForDynamicProgramming(ushint cycle)
 {
     double startTime = clock() / 1000;
     double lastTime = startTime;
@@ -625,7 +625,7 @@ std::vector<double> CalculateWorkingTime::ForDynamicProgramming(ushint cycle)
 //{
 //
 //}
-double CalculateWorkingTime::ForLimitElement(const inputChars InputState)
+double CalculateWorkingTime::                ForLimitElement(const inputChars InputState)
 {
     const ushint cycle = InputState.getCycle();
 
@@ -680,7 +680,7 @@ double CalculateWorkingTime::ForLimitElement(const inputChars InputState)
     return LineWorkTime;
 }
 //UnLimithed
-double CalculateWorkingTime::ForGready(const inputChars InputState)
+double CalculateWorkingTime::                ForGready(const inputChars InputState)
 {
     const ushint cycle = InputState.getCycle();
 
@@ -734,7 +734,7 @@ double CalculateWorkingTime::ForGready(const inputChars InputState)
 
     return LineWorkTime;
 }
-double CalculateWorkingTime::ForDynamicProgramming(const inputChars InputState)
+double CalculateWorkingTime::                ForDynamicProgramming(const inputChars InputState)
 {
     const ushint cycle = InputState.getCycle();
 
@@ -788,7 +788,7 @@ double CalculateWorkingTime::ForDynamicProgramming(const inputChars InputState)
 
     return LineWorkTime;
 }
-double CalculateWorkingTime::ForIntermediate(const inputChars InputState)
+double CalculateWorkingTime::                ForIntermediate(const inputChars InputState)
 {
     const ushint cycle = InputState.getCycle();
 

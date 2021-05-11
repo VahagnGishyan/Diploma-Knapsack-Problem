@@ -6,10 +6,10 @@
 
 namespace Interface
 {
-    void StartWork(Elements& elements, std::vector<ushint>& hollow);
-    void defaultWork();
+    void                    StartWork(Elements& elements, std::vector<ushint>& hollow);
+    void                    defaultWork();
 
-    void returnMaxValue(std::vector<ushint> &lineLengths, Elements elements, std::ofstream file);
+    void                    returnMaxValue(std::vector<ushint> &lineLengths, Elements elements, std::ofstream file);
 
     namespace Hollow
     {
@@ -19,11 +19,11 @@ namespace Interface
 
     namespace ForOutput
     {
-	void	    setFileWay(const std::string& FileWay);
-	std::string getFileWay();
-	void	    output(const std::vector<ElementsList>& object);
+	void	            setFileWay(const std::string& FileWay);
+	std::string         getFileWay();
+	void	            output(const std::vector<ElementsList>& object);
     }
 }
 
-void outputResult(Elements& elements, std::vector<ushint>& hollow, const bool key);
+void                        outputResult(Elements& elements, std::vector<ushint>& hollow, const bool key);
 

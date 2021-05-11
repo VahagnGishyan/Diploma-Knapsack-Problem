@@ -1,19 +1,19 @@
 ﻿#include "Elements.h"
 
 //struct Element
-Element::Element(int length, double value) : m_value(value), m_length(length)
+Element::                                  Element(int length, double value) : m_value(value), m_length(length)
 {
     assert(length > 0);
     m_priorityCoefficient = value / length;
 }
-Element::Element(const Element& copyObject)
+Element::                                  Element(const Element& copyObject)
 {
     m_value = copyObject.m_value;
     m_length = copyObject.m_length;
     m_priorityCoefficient = copyObject.m_priorityCoefficient;
     m_number = copyObject.m_number;
 }
-Element::Element(Element&& copyObject) noexcept
+Element::                                  Element(Element&& copyObject) noexcept
 {
     m_value = copyObject.m_value;
     m_length = copyObject.m_length;
@@ -27,14 +27,14 @@ Element::Element(Element&& copyObject) noexcept
 }
 
 //Operators
-std::ostream& operator<< (std::ostream& out, const Element& object)
+std::ostream&                              operator<< (std::ostream& out, const Element& object)
 {
     std::cout << "\tValue ::\t\t" << object.m_value << std::endl <<
 	"\tLength ::\t\t" << object.m_length << std::endl <<
 	"\tPriority Coefficient ::\t" << object.m_priorityCoefficient;
     return out;
 }
-Element& Element::operator= (const Element& object)
+Element& Element::                         operator= (const Element& object)
 {
     if (this == &object)
 	return *this;
@@ -45,21 +45,21 @@ Element& Element::operator= (const Element& object)
     m_number = object.m_number;
     return *this;
 }
-bool Element::operator==(const Element& drob)
+bool Element::                             operator==(const Element& drob)
 {
     return ((m_length == drob.m_length) && (m_value == drob.m_value));
 }
-bool Element::operator!=(const Element& drob)
+bool Element::                             operator!=(const Element& drob)
 {
     return ((m_length != drob.m_length) && (m_value != drob.m_value));
 }
 
 //Class Elements => container class Element
-Elements::Elements()
+Elements::                                 Elements()
 {
 
 }
-Elements::Elements(std::string filename)
+Elements::                                 Elements(std::string filename)
 {
     //varible
     std::ifstream variableForInputtingDataFromFile(filename);
@@ -112,14 +112,14 @@ Elements::Elements(std::string filename)
 }
 
 //For Work
-void Elements::print()
+void Elements::                            print()
 {
     const uShInt size = static_cast<uShInt>(m_data.size());
     for (uShInt start = 0; start < size; ++start)
 	std::cout << "Element " << start << "\n" << m_data[start] << std::endl;
     std::cout << std::endl;
 }
-void Elements::print(std::vector<Element> printData)
+void Elements::                            print(std::vector<Element> printData)
 {
     const uShInt size = static_cast<uShInt>(printData.size());
     for (uShInt start = 0; start < size; ++start)
@@ -127,7 +127,7 @@ void Elements::print(std::vector<Element> printData)
     std::cout << std::endl;
 }
 
-void Elements::mergSort(std::vector<Element>& array)
+void Elements::                            mergSort(std::vector<Element>& array)
 {
     ushint length = static_cast<ushint>(array.size());
 
@@ -184,13 +184,13 @@ void Elements::mergSort(std::vector<Element>& array)
 	}
     }
 }
-void Elements::swapElement(Element& object1, Element& object2)
+void Elements::                            swapElement(Element& object1, Element& object2)
 {
     Element obj = object1;
     object1 = object2;
     object2 = obj;
 }
-void Elements::sortByLenght(std::vector<Element>& array)
+void Elements::                            sortByLenght(std::vector<Element>& array)
 {
     ushint length = static_cast<uShInt>(array.size());
 
@@ -246,7 +246,7 @@ void Elements::sortByLenght(std::vector<Element>& array)
 	}
     }
 }
-void Elements::sortByPriorityCoefficient(std::vector<Element>& array)
+void Elements::                            sortByPriorityCoefficient(std::vector<Element>& array)
 {
     ushint length = static_cast<uShInt>(array.size());
 
@@ -303,19 +303,19 @@ void Elements::sortByPriorityCoefficient(std::vector<Element>& array)
     }
 
 }
-void Elements::push_back(const Element& object)
+void Elements::                            push_back(const Element& object)
 {
     m_data.push_back(object);
 }
-void Elements::pop_back()
+void Elements::                            pop_back()
 {
     m_data.pop_back();
 }
-void Elements::clear()
+void Elements::                            clear()
 {
     m_data.clear();
 }
-void Elements::resize(int size)
+void Elements::                            resize(int size)
 {
     assert(size > 0 && "Size will be positve");
     m_data.resize(size);
@@ -327,7 +327,7 @@ Elements& Elements::operator= (const Elements& drob)
     return *this;
 }
 
-std::vector<ElementsList>	Elements::knapsack_DynamicProgramming(int Length)
+std::vector<ElementsList>	Elements:: knapsack_DynamicProgramming(int Length)
 {
     std::vector <std::vector<Element>> elementList(Length + 1);
     std::vector<double> arrayForMaxValue(Length + 1);
@@ -392,7 +392,7 @@ std::vector<ElementsList>	Elements::knapsack_DynamicProgramming(int Length)
 
     return result;
 }
-double				Elements::knapsack_DynamicProgramming_ReturnMaxValue(int Length)
+double				Elements:: knapsack_DynamicProgramming_ReturnMaxValue(int Length)
 {
     size_t n = m_data.size();
 
@@ -413,7 +413,7 @@ double				Elements::knapsack_DynamicProgramming_ReturnMaxValue(int Length)
     }
     return arrayForMaxValue[Length];
 }
-std::vector<ElementsList>	Elements::algorithm_greedy(int length)
+std::vector<ElementsList>	Elements:: algorithm_greedy(int length)
 {
     std::vector<ElementsList> reservElements;
     sortByPriorityCoefficient(m_data);
@@ -434,7 +434,7 @@ std::vector<ElementsList>	Elements::algorithm_greedy(int length)
     }
     return (reservElements);
 }
-double				Elements::algorithm_greedy_ReturnMaxValue(int length)
+double				Elements:: algorithm_greedy_ReturnMaxValue(int length)
 {
     double maxValue = 0;
     sortByPriorityCoefficient(m_data);
@@ -449,7 +449,7 @@ double				Elements::algorithm_greedy_ReturnMaxValue(int length)
     }
     return (maxValue);
 }
-std::vector<ElementsList>	Elements::knapsack_intermediate(int length)
+std::vector<ElementsList>	Elements:: knapsack_intermediate(int length)
 {
     //Determine the preference coefficients for all elements
     decidePreferenceCoefficients();
@@ -537,7 +537,7 @@ std::vector<ElementsList>	Elements::knapsack_intermediate(int length)
 
     return result;
 }
-std::vector<ElementsList>	Elements::knapsack_forIntermediate_Greedy(std::vector<Element>& temporaryData, int& length)
+std::vector<ElementsList>	Elements:: knapsack_forIntermediate_Greedy(std::vector<Element>& temporaryData, int& length)
 {
     //Varibles
     std::vector<ElementsList> reservElements;
@@ -576,7 +576,7 @@ std::vector<ElementsList>	Elements::knapsack_forIntermediate_Greedy(std::vector<
     }
     return reservElements;
 }
-std::vector<ElementsList>	Elements::knapsack_forIntermediate_DynamicProgramming(const std::vector<Element>& data, int& length)
+std::vector<ElementsList>	Elements:: knapsack_forIntermediate_DynamicProgramming(const std::vector<Element>& data, int& length)
 {
     std::vector <std::vector<ElementsList>> elementList(length + 1);
 
@@ -647,14 +647,14 @@ std::vector<ElementsList>	Elements::knapsack_forIntermediate_DynamicProgramming(
     return (elementList.back());
 }
 
-bool Elements::			isMemberDataNumberEmpty()
+bool Elements::			           isMemberDataNumberEmpty()
 {
     for (ushint index = 0; index < size(); ++index)
 	if (m_data[index].m_number != 0)
 	    return false;
     return true;
 }
-std::vector<ElementsList>	Elements::knapasck_LimitGready(int length)
+std::vector<ElementsList>	Elements:: knapasck_LimitGready(int length)
 {
     std::vector<Element> temporaryData = m_data;
     std::vector<ElementsList> reservElements;
@@ -694,8 +694,8 @@ std::vector<ElementsList>	Elements::knapasck_LimitGready(int length)
     }
     return (reservElements);
 }
-//std::vector<ElementsList>	Elements::knapasck_LimitDynamicProgramming(int length);
-std::vector<ElementsList>	Elements::knapasck_LimitElement(int length)
+//std::vector<ElementsList>	Elements:: knapasck_LimitDynamicProgramming(int length);
+std::vector<ElementsList>	Elements:: knapasck_LimitElement(int length)
 {
     assert(length > 0 && "Length is not posytive");
 
@@ -800,7 +800,7 @@ std::vector<ElementsList>	Elements::knapasck_LimitElement(int length)
     return result;
 }
 
-void	Elements::excludeLongElement(std::vector<Element>& temporaryData, int length)
+void	Elements::                         excludeLongElement(std::vector<Element>& temporaryData, int length)
 {
     assert(temporaryData.size() != 0 && "Data is empty");
 
@@ -822,7 +822,7 @@ void	Elements::excludeLongElement(std::vector<Element>& temporaryData, int lengt
     for (ushint start = 0; start < size; ++start)
 	temporaryData[start] = reservData[reservIndex[start]];
 }
-void	Elements::deleteRepetitionsLength(std::vector<Element>& temporaryData)
+void	Elements::                         deleteRepetitionsLength(std::vector<Element>& temporaryData)
 {
     std::vector<ushint> reservIndex;
     reservIndex.push_back(0);
@@ -849,7 +849,7 @@ void	Elements::deleteRepetitionsLength(std::vector<Element>& temporaryData)
     temporaryData = reservData;
     temporaryData.shrink_to_fit();
 }
-void	Elements::deleteRepetitionsPriorityCoefficients(std::vector<Element>& temporaryData)
+void	Elements::                         deleteRepetitionsPriorityCoefficients(std::vector<Element>& temporaryData)
 {
     std::vector<ushint> reservIndex;
     reservIndex.push_back(0);
@@ -876,7 +876,7 @@ void	Elements::deleteRepetitionsPriorityCoefficients(std::vector<Element>& tempo
     temporaryData = reservData;
     temporaryData.shrink_to_fit();
 }
-double	Elements::returnGreatCost(std::vector<Element>& temporaryData)
+double	Elements::                         returnGreatCost(std::vector<Element>& temporaryData)
 {
     double maxValue = temporaryData[0].m_value;
     ushint size = static_cast<ushint>(temporaryData.size());
@@ -890,7 +890,7 @@ double	Elements::returnGreatCost(std::vector<Element>& temporaryData)
     }
     return (maxValue);
 }
-void	Elements::deleteMaxLengthNotMaxElements(std::vector<Element>& temporaryData, double maxValue)
+void	Elements::                         deleteMaxLengthNotMaxElements(std::vector<Element>& temporaryData, double maxValue)
 {
     ushint rememberIndex = 0;
     ushint size = static_cast<ushint>(temporaryData.size());
@@ -911,14 +911,14 @@ void	Elements::deleteMaxLengthNotMaxElements(std::vector<Element>& temporaryData
     for (ushint start = rememberIndex; start < reservData.size(); ++start)
 	temporaryData.push_back(reservData[start]);
 }
-void	Elements::decidePreferenceCoefficients()
+void	Elements::                         decidePreferenceCoefficients()
 {
     if (m_data[0].m_priorityCoefficient > 0)
 	return;
     for (ushint start = 0; start < m_data.size(); ++start)
 	m_data[start].m_priorityCoefficient = m_data[start].m_value / m_data[start].m_length;
 }
-ushint	Elements::returnMaxLengthFromSecondElement(std::vector<Element>& temporaryData)
+ushint	Elements::                         returnMaxLengthFromSecondElement(std::vector<Element>& temporaryData)
 {
     ushint maxLenght = temporaryData[1].m_length;
     const ushint size = static_cast<ushint>(temporaryData.size());
@@ -932,7 +932,7 @@ ushint	Elements::returnMaxLengthFromSecondElement(std::vector<Element>& temporar
     return maxLenght;
 }
 
-std::vector<int>			giveLinesLengths(std::string filename)
+std::vector<int>			   giveLinesLengths(std::string filename)
 {
     //varible
     std::ifstream				variableForInputtingDataFromFile(filename);
